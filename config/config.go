@@ -1,6 +1,7 @@
 package config
 
 import (
+	"backend-golang/models"
 	"fmt"
 
 	"gorm.io/driver/mysql"
@@ -25,7 +26,7 @@ func InitDB() {
 		DB_Password: "popo1212",
 		DB_Port:     "3306",
 		DB_Host:     "localhost",
-		DB_Name:     "crudd",
+		DB_Name:     "capstone",
 	}
 
 	connectionString := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?charset=utf8&parseTime=True&loc=Local",
@@ -44,5 +45,5 @@ func InitDB() {
 }
 
 func InitialMigration() {
-
+	DB.AutoMigrate(&models.User{})
 }
