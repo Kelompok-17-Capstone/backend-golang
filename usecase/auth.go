@@ -22,3 +22,14 @@ func Register(req *payload.Register) error {
 	}
 	return nil
 }
+
+func Login(req *payload.Login) (models.User, error) {
+	user, err := database.GetUserByEmail(req.Email)
+	if err != nil {
+		return models.User{}, err
+	}
+	if err := bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(req.Password)); err != nil {
+		return models.User{}, err
+	}
+	return user, nil
+}
