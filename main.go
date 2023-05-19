@@ -2,6 +2,7 @@ package main
 
 import (
 	"backend-golang/config"
+	"backend-golang/models/seeder"
 	"backend-golang/routes"
 	"backend-golang/util"
 
@@ -11,6 +12,7 @@ import (
 func init() {
 	config.InitDB()
 	config.InitialMigration()
+	seeder.DBSeed(config.DB)
 }
 
 func main() {
