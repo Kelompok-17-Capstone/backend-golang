@@ -17,12 +17,17 @@ func RegisterController(c echo.Context) error {
 		return err
 	}
 
-	err := usecase.Register(&req)
+	user, err := usecase.Register(&req)
 	if err != nil {
 		return echo.NewHTTPError(http.StatusBadRequest, err.Error())
 	}
+	token, err := middlewares.CreateToken(user.Email, user.Role, user.ID)
+	if err != nil {
+		return err
+	}
 	return c.JSON(http.StatusOK, map[string]interface{}{
 		"message": "success to register",
+		"token":   token,
 	})
 }
 
