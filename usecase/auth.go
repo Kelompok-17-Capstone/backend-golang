@@ -8,19 +8,19 @@ import (
 	"golang.org/x/crypto/bcrypt"
 )
 
-func Register(req *payload.Register) error {
+func Register(req *payload.Register) (models.User, error) {
 	password, err := bcrypt.GenerateFromPassword([]byte(req.Password), bcrypt.DefaultCost)
 	if err != nil {
-		return err
+		return models.User{}, err
 	}
 	user := models.User{
 		Email:    req.Email,
 		Password: string(password),
 	}
 	if err := database.Register(&user); err != nil {
-		return err
+		return models.User{}, err
 	}
-	return nil
+	return user, nil
 }
 
 func Login(req *payload.Login) (models.User, error) {
