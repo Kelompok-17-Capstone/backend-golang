@@ -24,5 +24,8 @@ func CreateUserProfil(id uint, req *payload.Profile) error {
 	if err := database.CreateUserAddress(&address); err != nil {
 		return err
 	}
+	if err := database.UpdateUserStatus(id, "validated"); err != nil {
+		return err
+	}
 	return nil
 }

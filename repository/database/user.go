@@ -25,3 +25,11 @@ func CreateUserAddress(req *models.Address) error {
 	}
 	return nil
 }
+
+func UpdateUserStatus(id uint, status string) error {
+	var user models.User
+	if err := config.DB.Model(&user).Where("id = ?", id).Update("status", status).Error; err != nil {
+		return err
+	}
+	return nil
+}
