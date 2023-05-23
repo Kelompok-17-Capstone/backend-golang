@@ -11,3 +11,25 @@ func GetUserByEmail(email string) (user models.User, err error) {
 	}
 	return
 }
+
+func CreateUserProfil(req *models.Profile) error {
+	if err := config.DB.Save(&req).Error; err != nil {
+		return err
+	}
+	return nil
+}
+
+func CreateUserAddress(req *models.Address) error {
+	if err := config.DB.Save(&req).Error; err != nil {
+		return err
+	}
+	return nil
+}
+
+func UpdateUserStatus(id uint, status string) error {
+	var user models.User
+	if err := config.DB.Model(&user).Where("id = ?", id).Update("status", status).Error; err != nil {
+		return err
+	}
+	return nil
+}

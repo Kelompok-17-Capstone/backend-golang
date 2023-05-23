@@ -4,7 +4,7 @@ import (
 	"backend-golang/constants"
 	"time"
 
-	jwt "github.com/dgrijalva/jwt-go"
+	jwt "github.com/golang-jwt/jwt/v5"
 	"github.com/labstack/echo/v4"
 )
 
@@ -43,8 +43,14 @@ func IsUser(next echo.HandlerFunc) echo.HandlerFunc {
 		return next(c)
 	}
 }
+func GetUserLoginId(c echo.Context) uint {
+	user := c.Get("user").(*jwt.Token)
+	claims := user.Claims.(jwt.MapClaims)
+	id := uint(claims["user_id"].(float64))
+	return id
+}
 
-// var JWTMiddlewareConfig = middleware.JWTWithConfig(middleware.JWTConfig{
+// va JWTMiddlewareConfig = middleware.JWTWithConfig(middleware.JWTConfig{
 // 	SigningMethod: "HS256",
 // 	SigningKey:    []byte(constants.SECRET_KEY),
 // 	TokenLookup:   "cookie:JWTCookie",

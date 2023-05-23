@@ -21,7 +21,17 @@ type Config struct {
 }
 
 func InitDB() {
+	// username := os.Getenv("DB_USERNAME")
+	// password := os.Getenv("DB_PASSWORD")
+	// port := os.Getenv("DB_PORT")
+	// host := os.Getenv("DB_HOST")
+	// name := os.Getenv("DB_NAME")
 	config := Config{
+		// DB_Username: username,
+		// DB_Password: password,
+		// DB_Port:     port,
+		// DB_Host:     host,
+		// DB_Name:     name,
 		DB_Username: "root",
 		DB_Password: "popo1212",
 		DB_Port:     "3306",
@@ -45,5 +55,5 @@ func InitDB() {
 }
 
 func InitialMigration() {
-	DB.AutoMigrate(&models.User{})
+	DB.AutoMigrate(&models.User{}, &models.Profile{}, &models.Address{})
 }
