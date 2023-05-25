@@ -32,8 +32,8 @@ func InitDB() {
 		// DB_Port:     port,
 		// DB_Host:     host,
 		// DB_Name:     name,
-		DB_Username: "root",
-		DB_Password: "popo1212",
+		DB_Username: "alta",
+		DB_Password: "root",
 		DB_Port:     "3306",
 		DB_Host:     "localhost",
 		DB_Name:     "capstone",
@@ -55,5 +55,5 @@ func InitDB() {
 }
 
 func InitialMigration() {
-	DB.AutoMigrate(&models.User{}, &models.Profile{}, &models.Address{})
+	DB.AutoMigrate(&models.User{}, &models.Profile{}, &models.Address{}, &models.Product{})
 }

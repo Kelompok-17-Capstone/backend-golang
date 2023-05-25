@@ -33,3 +33,11 @@ func UpdateUserStatus(id uint, status string) error {
 	}
 	return nil
 }
+
+func UploadPhotoProfil(id uint, photo string) error {
+	var profile *models.Profile
+	if err := config.DB.Model(&profile).Where("user_id = ?", id).Update("photo", photo).Error; err != nil {
+		return err
+	}
+	return nil
+}
