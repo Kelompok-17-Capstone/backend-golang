@@ -13,7 +13,7 @@ func CreateProdcutController(c echo.Context) error {
 	c.Bind(&req)
 	image, err := c.FormFile("image")
 	if err != nil && err != http.ErrMissingFile {
-		return err
+		return echo.NewHTTPError(http.StatusBadRequest, err.Error())
 	}
 	if err := c.Validate(req); err != nil {
 		return err
