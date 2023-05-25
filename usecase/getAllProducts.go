@@ -25,11 +25,12 @@ func GetAllProduct() (resp []payload.ProductResponse, err error) {
 	}
 	for _, product := range products {
 		resp = append(resp, payload.ProductResponse{
-			ProductName: product.ProductName,
+			ID:          product.ID,
+			Name:        product.Name,
 			Description: product.Description,
 			Stock:       product.Stock,
 			Price:       product.Price,
-			Status:      product.Status,
+			Image:       product.Image,
 		})
 	}
 	return
