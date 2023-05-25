@@ -26,6 +26,7 @@ func New() *echo.Echo {
 
 	products := e.Group("admin/products", jwt.JWT([]byte(constants.SECRET_KEY)))
 	products.POST("", controllers.CreateProdcutController)
+	products.GET("", controllers.GetAllProductController)
 
 	return e
 }
