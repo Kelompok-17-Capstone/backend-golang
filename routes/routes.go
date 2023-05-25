@@ -21,5 +21,8 @@ func New() *echo.Echo {
 	e.POST("/login", controllers.LoginController)
 	e.POST("/profil", controllers.CreateUserProfileController, jwt.JWT([]byte(constants.SECRET_KEY)))
 
+	products := e.Group("admin/products", jwt.JWT([]byte(constants.SECRET_KEY)))
+	products.POST("", controllers.CreateProdcutController)
+
 	return e
 }

@@ -1,5 +1,7 @@
 package payload
 
+import "mime/multipart"
+
 type Register struct {
 	Email          string `json:"email" form:"email" validate:"required,email"`
 	Password       string `json:"password" form:"password" validate:"required,min=8"`
@@ -17,4 +19,12 @@ type Profile struct {
 	City        string `json:"city" form:"city" validate:"required"`
 	Province    string `json:"province" form:"province" validate:"required"`
 	Address     string `json:"address" form:"address" validate:"required"`
+}
+
+type CreateProduct struct {
+	ProductName string                `json:"product_name" form:"product_name"`
+	Description string                `json:"description" form:"description"`
+	Stock       uint                  `json:"stock" form:"stock"`
+	Price       uint                  `json:"price" form:"price"`
+	ImageFile   *multipart.FileHeader `form:"image_file"`
 }
