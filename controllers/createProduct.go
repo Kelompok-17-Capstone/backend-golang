@@ -19,7 +19,7 @@ func CreateProdcutController(c echo.Context) error {
 		return err
 	}
 	if err := usecase.CreateProduct(&req, image); err != nil {
-		return err
+		return echo.NewHTTPError(http.StatusBadRequest, err.Error())
 	}
 	return c.JSON(http.StatusOK, map[string]interface{}{
 		"message": "success create product",
