@@ -13,7 +13,9 @@ import (
 
 func GetAllProductController(c echo.Context) error {
 	var products []payload.ProductResponse
-	products, err := usecase.GetAllProduct()
+	status := c.QueryParam("status")
+	keyword := c.QueryParam("keyword")
+	products, err := usecase.GetAllProduct(status, keyword)
 	if err != nil {
 		return echo.NewHTTPError(http.StatusBadRequest, err.Error())
 	}
