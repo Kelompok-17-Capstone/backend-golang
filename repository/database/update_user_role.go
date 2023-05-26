@@ -12,3 +12,11 @@ func UpdateUserRole(id uint, role string) error {
 	}
 	return nil
 }
+
+func GetUserProfile(id uint) (*models.User, error) {
+	var user models.User
+	if err := config.DB.Where("id = ?", id).First(&user).Error; err != nil {
+		return nil, err
+	}
+	return &user, nil
+}

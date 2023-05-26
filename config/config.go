@@ -33,7 +33,7 @@ func InitDB() {
 		// DB_Host:     host,
 		// DB_Name:     name,
 		DB_Username: "root",
-		DB_Password: "popo1212",
+		DB_Password: "",
 		DB_Port:     "3306",
 		DB_Host:     "localhost",
 		DB_Name:     "capstone",

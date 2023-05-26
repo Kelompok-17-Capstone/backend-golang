@@ -3,6 +3,8 @@ package database
 import (
 	"backend-golang/config"
 	"backend-golang/models"
+
+	uuid "github.com/satori/go.uuid"
 )
 
 func ViewMemberInformation(id uint) (models.User, error) {
@@ -11,4 +13,9 @@ func ViewMemberInformation(id uint) (models.User, error) {
 		return user, err
 	}
 	return user, nil
+}
+
+func GenerateMemberCode() string {
+	uuidObj := uuid.NewV4()
+	return uuidObj.String()
 }

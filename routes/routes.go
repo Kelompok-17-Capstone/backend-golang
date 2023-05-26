@@ -25,5 +25,9 @@ func New() *echo.Echo {
 	p.POST("", controllers.CreateUserProfileController)
 	p.POST("/photo", controllers.UpdateUserPhotoController)
 
+	m := e.Group("member", jwt.JWT([]byte(constants.SECRET_KEY)))
+	m.POST("", controllers.RegisterAsMemberController)
+	m.GET("", controllers.ViewMemberInformationController)
+
 	return e
 }
