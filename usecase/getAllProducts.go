@@ -3,20 +3,11 @@ package usecase
 import (
 	"backend-golang/models/payload"
 	"backend-golang/repository/database"
+
+	uuid "github.com/satori/go.uuid"
 )
 
-// import (
-// 	"backend-golang/models"
-// 	"backend-golang/repository/database"
-// )
-
-// func GetAllProduct() ([]models.Product, error) {
-// 	products, err := database.GetAllProduct()
-// 	if err != nil {
-// 		return nil, err
-// 	}
-// 	return products, nil
-// }
+// get all product
 
 func GetAllProduct() (resp []payload.ProductResponse, err error) {
 	products, err := database.GetAllProduct()
@@ -32,6 +23,24 @@ func GetAllProduct() (resp []payload.ProductResponse, err error) {
 			Price:       product.Price,
 			Image:       product.Image,
 		})
+	}
+	return
+}
+
+// get prodcut by ID
+
+func GetProductByid(id uuid.UUID) (resp payload.ProductResponse, err error) {
+	product, err := database.GetProductById(id)
+	if err != nil {
+		return payload.ProductResponse{}, err
+	}
+	resp = payload.ProductResponse{
+		ID:          product.ID,
+		Name:        product.Name,
+		Description: product.Description,
+		Stock:       product.Stock,
+		Price:       product.Price,
+		Image:       product.Image,
 	}
 	return
 }
