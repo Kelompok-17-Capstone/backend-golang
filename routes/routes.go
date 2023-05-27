@@ -29,5 +29,9 @@ func New() *echo.Echo {
 	products.POST("", controllers.CreateProdcutController)
 	products.GET("", controllers.GetAllProductController)
 
+	m := e.Group("member", jwt.JWT([]byte(constants.SECRET_KEY)))
+	m.POST("", controllers.RegisterAsMemberController)
+	m.GET("", controllers.ViewMemberInformationController)
+
 	return e
 }

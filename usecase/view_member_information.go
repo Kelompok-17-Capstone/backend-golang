@@ -21,11 +21,16 @@ func ViewMemberInformation(id uint) (payload.GetMember, error) {
 		username = user.Profile.Name
 	}
 
+	memberCode, err := database.GetMemberCode(user.ID)
+	if err != nil {
+		return payload.GetMember{}, err
+	}
+
 	resp := payload.GetMember{
 		ID:         user.ID,
 		Name:       username,
 		Image:      user.Profile.Photo,
-		MemberCode: database.GenerateMemberCode(),
+		MemberCode: memberCode,
 	}
 	return resp, nil
 }
