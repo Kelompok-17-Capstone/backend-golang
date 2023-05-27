@@ -8,7 +8,7 @@ import (
 )
 
 func UpdateProduct(id uuid.UUID, product *models.Product) error {
-	if err := config.DB.Model(&models.Product{}).Where("id = ?", id).Updates(product).Error; err != nil {
+	if err := config.DB.Model(&product).Where("id = ?", id).Updates(product).Error; err != nil {
 		return err
 	}
 	return nil

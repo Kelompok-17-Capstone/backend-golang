@@ -1,7 +1,7 @@
 package controllers
 
 import (
-	"backend-golang/models"
+	"backend-golang/models/payload"
 	"backend-golang/usecase"
 	"net/http"
 
@@ -10,20 +10,20 @@ import (
 )
 
 func UpdateProductController(c echo.Context) error {
+	var product payload.UpdateProduct
 	id := c.Param("id")
-	updateProduct := models.Product{}
-	c.Bind(&updateProduct)
-	updateProduct.ID = uuid.FromStringOrNil(id)
-	image, _ := c.FormFile("image")
-	if _, err := usecase.UpdateProduct(updateProduct.ID, image); err != nil {
-		return c.JSON(http.StatusBadRequest, map[string]interface{}{
-			"message":          "error updating product",
-			"errorDescription": err.Error(),
-			"errorMessage":     "Sorry, unable to update product at the moment",
-		})
+	c.Bind(&product)
+	image, err := c.FormFile("image")
+	if err != nil && err != http.ErrMissingFile {
+		return echo.NewHTTPError(http.StatusBadRequest, err.Error())
 	}
-
+	if err := c.Validate(product); err != nil {
+		return err
+	}
+	if err := usecase.UpdateProduct(uuid.FromStringOrNil(id), &product, image); err != nil {
+		return echo.NewHTTPError(http.StatusBadRequest, err.Error())
+	}
 	return c.JSON(http.StatusOK, map[string]interface{}{
-		"message": "success update update Product",
+		"message": "success update product",
 	})
 }

@@ -2,6 +2,7 @@ package usecase
 
 import (
 	"backend-golang/models"
+	"backend-golang/models/payload"
 	"backend-golang/repository/database"
 	"backend-golang/util"
 	"mime/multipart"
@@ -9,17 +10,24 @@ import (
 	uuid "github.com/satori/go.uuid"
 )
 
-func UpdateProduct(id uuid.UUID, image *multipart.FileHeader) (product *models.Product, err error) {
+func UpdateProduct(id uuid.UUID, req *payload.UpdateProduct, image *multipart.FileHeader) (err error) {
 	result, err := util.UploadFile(image)
 	if err != nil {
-		return nil, err
+		return err
 	}
-	product = &models.Product{
-		Image: result.Location,
+	if _, err := database.GetProductById(id); err != nil {
+		return err
 	}
-	err = database.UpdateProduct(id, product)
-	if err != nil {
-		return nil, err
+	product := models.Product{
+		Name:        req.Name,
+		Description: req.Description,
+		Stock:       req.Stock,
+		Price:       req.Price,
+		Image:       result.Location,
 	}
-	return product, nil
+	if err := database.UpdateProduct(id, &product); err != nil {
+		return err
+	}
+	return nil
+
 }
