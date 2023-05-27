@@ -32,6 +32,10 @@ func New() *echo.Echo {
 	products.DELETE("/:id", controllers.DeleteProductController)
 	products.PUT("/:id", controllers.UpdateProductController)
 
+	users := e.Group("admin/users", jwt.JWT([]byte(constants.SECRET_KEY)))
+	users.GET("", controllers.GetUsersController)
+	users.GET("/:id", controllers.GetUserController)
+
 	m := e.Group("member", jwt.JWT([]byte(constants.SECRET_KEY)))
 	m.POST("", controllers.RegisterAsMemberController)
 	m.GET("", controllers.ViewMemberInformationController)
