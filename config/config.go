@@ -4,6 +4,7 @@ import (
 	"backend-golang/models"
 	"fmt"
 
+	"github.com/joho/godotenv"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 )
@@ -21,11 +22,9 @@ type Config struct {
 }
 
 func InitDB() {
-	// username := os.Getenv("DB_USERNAME")
-	// password := os.Getenv("DB_PASSWORD")
-	// port := os.Getenv("DB_PORT")
-	// host := os.Getenv("DB_HOST")
-	// name := os.Getenv("DB_NAME")
+	if err := godotenv.Load(); err != nil {
+		fmt.Println("Error loading .env file")
+	}
 	config := Config{
 		// DB_Username: username,
 		// DB_Password: password,
@@ -55,5 +54,5 @@ func InitDB() {
 }
 
 func InitialMigration() {
-	DB.AutoMigrate(&models.User{}, &models.Profile{}, &models.Address{})
+	DB.AutoMigrate(&models.User{}, &models.Profile{}, &models.Address{}, &models.Product{})
 }
