@@ -3,6 +3,7 @@ package config
 import (
 	"backend-golang/models"
 	"fmt"
+	"os"
 
 	"github.com/joho/godotenv"
 	"gorm.io/driver/mysql"
@@ -26,16 +27,11 @@ func InitDB() {
 		fmt.Println("Error loading .env file")
 	}
 	config := Config{
-		// DB_Username: username,
-		// DB_Password: password,
-		// DB_Port:     port,
-		// DB_Host:     host,
-		// DB_Name:     name,
-		DB_Username: "root",
-		DB_Password: "",
-		DB_Port:     "3306",
-		DB_Host:     "localhost",
-		DB_Name:     "capstone",
+		DB_Username: os.Getenv("DB_USERNAME"),
+		DB_Password: os.Getenv("DB_PASSWORD"),
+		DB_Port:     os.Getenv("DB_PORT"),
+		DB_Host:     os.Getenv("DB_HOST"),
+		DB_Name:     os.Getenv("DB_NAME"),
 	}
 
 	connectionString := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?charset=utf8&parseTime=True&loc=Local",
