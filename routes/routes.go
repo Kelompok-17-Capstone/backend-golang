@@ -19,7 +19,10 @@ func New() *echo.Echo {
 
 	e.POST("/register", controllers.RegisterController)
 	e.POST("/login", controllers.LoginController)
-	e.POST("/profil", controllers.CreateUserProfileController, jwt.JWT([]byte(constants.SECRET_KEY)))
+
+	users := e.Group("admin/users", jwt.JWT([]byte(constants.SECRET_KEY)))
+	users.GET("", controllers.GetUsersController)
+	users.GET("/:id", controllers.GetUserController)
 
 	return e
 }
