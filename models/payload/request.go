@@ -25,3 +25,10 @@ type CreateProduct struct {
 	Stock       uint   `json:"stock" form:"stock"`
 	Price       uint   `json:"price" form:"price"`
 }
+
+type UpdateProduct struct {
+	Name        string `json:"name" form:"name"`
+	Description string `json:"description" form:"description"`
+	Stock       uint   `json:"stock" form:"stock"`
+	Price       uint   `json:"price" form:"price"`
+}

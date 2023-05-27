@@ -28,6 +28,8 @@ func New() *echo.Echo {
 	products.POST("", controllers.CreateProdcutController)
 	products.GET("", controllers.GetAllProductController)
 	products.GET("/:id", controllers.GetProductByIDController)
+	// products.DELETE("/:id", controllers.UpdateProductController)
+	products.PUT("/:id", controllers.UpdateProductController)
 
 	return e
 }
