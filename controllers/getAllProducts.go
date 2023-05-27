@@ -35,7 +35,7 @@ func GetProductByIDController(c echo.Context) error {
 		return echo.NewHTTPError(http.StatusBadRequest, err.Error())
 	}
 	return c.JSON(http.StatusOK, map[string]interface{}{
-		"message": "success get item",
+		"message": "success get products by id",
 		"data":    product,
 	})
 
