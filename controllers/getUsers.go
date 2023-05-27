@@ -11,7 +11,9 @@ import (
 // get  all user
 
 func GetUsersController(c echo.Context) error {
-	users, err := usecase.GetUsers()
+	keyword := c.QueryParam("keyword")
+	role := c.QueryParam("role")
+	users, err := usecase.GetUsers(keyword, role)
 
 	if err != nil {
 		return echo.NewHTTPError(http.StatusBadRequest, err.Error())
