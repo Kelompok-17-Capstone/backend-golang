@@ -11,11 +11,13 @@ func GetUsers() (response []payload.GetUser, err error) {
 		return
 	}
 	for _, user := range users {
+		address := user.Profile.Address.Address + ", " + user.Profile.Address.City + ", " + user.Profile.Address.Province
 		response = append(response, payload.GetUser{
+			ID:          user.ID,
 			Name:        user.Profile.Name,
 			Email:       user.Email,
 			PhoneNumber: user.Profile.PhoneNumber,
-			Address:     user.Profile.Address.Province,
+			Address:     address,
 		})
 	}
 	return
@@ -26,11 +28,13 @@ func GetUser(id uint) (resp payload.GetUser, err error) {
 	if err != nil {
 		return payload.GetUser{}, err
 	}
+	address := user.Profile.Address.Address + ", " + user.Profile.Address.City + ", " + user.Profile.Address.Province
 	resp = payload.GetUser{
+		ID:          user.ID,
 		Name:        user.Profile.Name,
 		Email:       user.Email,
 		PhoneNumber: user.Profile.PhoneNumber,
-		Address:     user.Profile.Address.Province,
+		Address:     address,
 	}
 	return
 }

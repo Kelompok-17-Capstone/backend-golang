@@ -18,3 +18,10 @@ type Profile struct {
 	Province    string `json:"province" form:"province" validate:"required"`
 	Address     string `json:"address" form:"address" validate:"required"`
 }
+
+type CreateProduct struct {
+	Name        string `json:"name" form:"name"`
+	Description string `json:"description" form:"description"`
+	Stock       uint   `json:"stock" form:"stock"`
+	Price       uint   `json:"price" form:"price"`
+}

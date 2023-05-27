@@ -14,7 +14,7 @@ func RegisterController(c echo.Context) error {
 	c.Bind(&req)
 
 	if err := c.Validate(req); err != nil {
-		return err
+		return echo.NewHTTPError(http.StatusBadRequest, err.Error())
 	}
 
 	user, err := usecase.Register(&req)
@@ -23,7 +23,7 @@ func RegisterController(c echo.Context) error {
 	}
 	token, err := middlewares.CreateToken(user.Email, user.Role, user.ID)
 	if err != nil {
-		return err
+		return echo.NewHTTPError(http.StatusBadRequest, err.Error())
 	}
 	return c.JSON(http.StatusOK, map[string]interface{}{
 		"message": "success to register",
@@ -46,11 +46,12 @@ func LoginController(c echo.Context) error {
 
 	token, err := middlewares.CreateToken(user.Email, user.Role, user.ID)
 	if err != nil {
-		return err
+		return echo.NewHTTPError(http.StatusBadRequest, err.Error())
 	}
 
 	return c.JSON(http.StatusOK, map[string]interface{}{
-		"message": "success login user",
-		"token":   token,
+		"message":     "success login user",
+		"token":       token,
+		"status_user": user.Status,
 	})
 }

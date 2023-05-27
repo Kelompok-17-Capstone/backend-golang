@@ -4,6 +4,8 @@ import (
 	"backend-golang/models"
 	"backend-golang/models/payload"
 	"backend-golang/repository/database"
+	"backend-golang/util"
+	"mime/multipart"
 )
 
 func CreateUserProfil(id uint, req *payload.Profile) error {
@@ -25,6 +27,17 @@ func CreateUserProfil(id uint, req *payload.Profile) error {
 		return err
 	}
 	if err := database.UpdateUserStatus(id, "validated"); err != nil {
+		return err
+	}
+	return nil
+}
+
+func UploadPhotoProfile(id uint, file *multipart.FileHeader) error {
+	result, err := util.UploadFile(file)
+	if err != nil {
+		return err
+	}
+	if err := database.UploadPhotoProfil(id, result.Location); err != nil {
 		return err
 	}
 	return nil

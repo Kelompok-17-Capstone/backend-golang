@@ -1,9 +1,9 @@
 package controllers
 
 import (
-	"backend-golang/middlewares"
 	"backend-golang/usecase"
 	"net/http"
+	"strconv"
 
 	"github.com/labstack/echo/v4"
 )
@@ -23,8 +23,8 @@ func GetUsersController(c echo.Context) error {
 }
 
 func GetUserController(c echo.Context) error {
-	id := middlewares.GetUserLoginId(c)
-	user, err := usecase.GetUser(id)
+	id, _ := strconv.Atoi(c.Param("id"))
+	user, err := usecase.GetUser(uint(id))
 	if err != nil {
 		return echo.NewHTTPError(http.StatusBadRequest, err.Error())
 	}
