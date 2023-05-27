@@ -21,12 +21,24 @@ func New() *echo.Echo {
 	e.POST("/login", controllers.LoginController)
 
 	p := e.Group("profile", jwt.JWT([]byte(constants.SECRET_KEY)))
+	p.GET("", controllers.ViewMemberInformationController)
 	p.POST("", controllers.CreateUserProfileController)
 	p.POST("/photo", controllers.UpdateUserPhotoController)
 
 	products := e.Group("admin/products", jwt.JWT([]byte(constants.SECRET_KEY)))
 	products.POST("", controllers.CreateProdcutController)
 	products.GET("", controllers.GetAllProductController)
+	products.GET("/:id", controllers.GetProductByIDController)
+	products.DELETE("/:id", controllers.DeleteProductController)
+	products.PUT("/:id", controllers.UpdateProductController)
+
+	users := e.Group("admin/users", jwt.JWT([]byte(constants.SECRET_KEY)))
+	users.GET("", controllers.GetUsersController)
+	users.GET("/:id", controllers.GetUserController)
+
+	m := e.Group("member", jwt.JWT([]byte(constants.SECRET_KEY)))
+	m.POST("", controllers.RegisterAsMemberController)
+	m.GET("", controllers.ViewMemberInformationController)
 
 	return e
 }
