@@ -24,6 +24,10 @@ func New() *echo.Echo {
 	p.GET("", controllers.ViewMemberInformationController)
 	p.POST("", controllers.CreateUserProfileController)
 	p.POST("/photo", controllers.UpdateUserPhotoController)
+	p.PUT("/email", controllers.UpdateUserEmailController)
+	p.PUT("/password", controllers.UpdatePasswordController)
+	p.PUT("/name", controllers.UpdateNameController)
+	p.PUT("/phone-number", controllers.UpdatePhoneNumberController)
 
 	products := e.Group("admin/products", jwt.JWT([]byte(constants.SECRET_KEY)))
 	products.POST("", controllers.CreateProdcutController)
