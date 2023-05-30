@@ -37,3 +37,22 @@ func GetProductById(id uuid.UUID) (resp models.Product, err error) {
 	}
 	return
 }
+
+func GetProductsMobile(req *payload.ProductParam) ([]models.Product, error) {
+	var products []models.Product
+	db := config.DB
+	if req.Keyword != "" {
+		db = db.Where("name like ?", "%"+req.Keyword+"%")
+	}
+	if req.Tab != "" {
+		if req.Tab == "terbaru" {
+			db = db.Order("created_at")
+		} else if req.Tab == "terfavorit" {
+			db = db.Joins("JOIN favourites ON products.id = favourites.product_id").Select("*, count(user_id) as fav").Group("favourites.product_id").Order("fav desc")
+		}
+	}
+	if err := db.Find(&products).Error; err != nil {
+		return products, err
+	}
+	return products, nil
+}
