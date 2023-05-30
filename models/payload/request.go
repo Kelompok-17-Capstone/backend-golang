@@ -11,6 +11,16 @@ type Login struct {
 	Password string `json:"password" form:"password" validate:"required"`
 }
 
+type ProductParam struct {
+	Keyword string
+	Status  string
+}
+
+type UsersParam struct {
+	Keyword string
+	Role    string
+}
+
 type Profile struct {
 	Name        string `json:"name" form:"name" validate:"required"`
 	PhoneNumber string `json:"phone_number" form:"phone_number" validate:"required,min=11,max=13"`

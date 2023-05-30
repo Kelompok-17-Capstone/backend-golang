@@ -11,11 +11,11 @@ import (
 
 // get all product
 
-func GetAllProductController(c echo.Context) error {
+func GetProductsController(c echo.Context) error {
 	var products []payload.ProductResponse
 	status := c.QueryParam("status")
 	keyword := c.QueryParam("keyword")
-	products, err := usecase.GetAllProduct(status, keyword)
+	products, err := usecase.GetProducts(status, keyword)
 	if err != nil {
 		return echo.NewHTTPError(http.StatusBadRequest, err.Error())
 	}

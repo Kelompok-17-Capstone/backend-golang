@@ -9,6 +9,7 @@ type ProductResponse struct {
 	Stock       uint      `json:"stock" form:"stock"`
 	Price       uint      `json:"price" form:"price"`
 	Image       string    `json:"image" form:"image"`
+	Status      string    `json:"status" form:"status"`
 }
 type GetMember struct {
 	ID         uint   `json:"id" form:"id"`
