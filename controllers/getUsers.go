@@ -1,7 +1,6 @@
 package controllers
 
 import (
-	"backend-golang/middlewares"
 	"backend-golang/usecase"
 	"net/http"
 	"strconv"
@@ -34,17 +33,5 @@ func GetUserController(c echo.Context) error {
 	return c.JSON(http.StatusOK, map[string]interface{}{
 		"message": "success get user",
 		"user":    user,
-	})
-}
-
-func GetNameUserController(c echo.Context) error {
-	id := middlewares.GetUserLoginId(c)
-	user, err := usecase.GetUser(uint(id))
-	if err != nil {
-		return echo.NewHTTPError(http.StatusBadRequest, err.Error())
-	}
-	return c.JSON(http.StatusOK, map[string]interface{}{
-		"message": "success get user",
-		"name":    user.Name,
 	})
 }

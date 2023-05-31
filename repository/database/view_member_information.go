@@ -11,7 +11,7 @@ import (
 
 func ViewMemberInformation(id uint) (models.User, error) {
 	var user models.User
-	if err := config.DB.Where("id = ?", id).Preload("Profile").Find(&user).Error; err != nil {
+	if err := config.DB.Where("id = ?", id).Preload("Profile.Address").Find(&user).Error; err != nil {
 		return user, err
 	}
 	return user, nil
