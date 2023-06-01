@@ -46,9 +46,9 @@ func GetProductsMobile(req *payload.ProductParam) ([]models.Product, error) {
 	}
 	if req.Tab != "" {
 		if req.Tab == "terbaru" {
-			db = db.Order("created_at")
+			db = db.Order("created_at desc")
 		} else if req.Tab == "terfavorit" {
-			db = db.Joins("JOIN favourites ON products.id = favourites.product_id").Select("*, count(user_id) as fav").Group("favourites.product_id").Order("fav desc")
+			db = db.Joins("JOIN favourites ON products.id = favourites.product_id").Select("count(favourites.id) as fav").Group("product_id")
 		}
 	}
 	if err := db.Find(&products).Error; err != nil {

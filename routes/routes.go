@@ -37,5 +37,7 @@ func New() *echo.Echo {
 	users.GET("", controllers.GetUsersController)
 	users.GET("/:id", controllers.GetUserController)
 
+	e.GET("/products", controllers.GetProductsMobileController)
+
 	return e
 }
