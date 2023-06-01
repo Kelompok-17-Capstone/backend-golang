@@ -15,9 +15,18 @@ func AddFavoriteProduct(userID uint, productID string) error {
 }
 
 func GetFavoriteProduct(userID uint) (*payload.GetFavoriteProduct, error) {
-	favoriteProduct, err := database.GetFavoriteProduct(userID)
+	product, err := database.GetFavoriteProduct(userID)
 	if err != nil {
 		return nil, err
+	}
+
+	favoriteProduct := &payload.GetFavoriteProduct{
+		ID:          product.ID,
+		Name:        product.Name,
+		Description: product.Description,
+		Price:       product.Price,
+		Image:       product.Image,
+		Favorite:    true,
 	}
 
 	return favoriteProduct, nil

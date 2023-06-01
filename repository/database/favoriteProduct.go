@@ -3,7 +3,7 @@ package database
 import (
 	"backend-golang/config"
 	"backend-golang/models"
-	"backend-golang/models/payload"
+	"fmt"
 )
 
 func AddFavoriteProduct(userID uint, productID string) error {
@@ -23,23 +23,22 @@ func AddFavoriteProduct(userID uint, productID string) error {
 	return nil
 }
 
-func GetFavoriteProduct(userID uint) (*payload.GetFavoriteProduct, error) {
+func GetFavoriteProduct(userID uint) (*models.Product, error) {
 	var product models.Product
-	err := config.DB.Where("user_id = ? AND favorite = ?", userID, true).First(&product).Error
+	var user models.User
+
+	err := config.DB.Preload("Favourites").Preload("Favourites.Product").First(&user, userID).Error
 	if err != nil {
 		return nil, err
 	}
 
-	favoriteProduct := &payload.GetFavoriteProduct{
-		ID:          product.ID,
-		Name:        product.Name,
-		Description: product.Description,
-		Price:       product.Price,
-		Image:       product.Image,
-		Favorite:    true,
+	if len(user.Favorites) == 0 {
+		return nil, fmt.Errorf("user has no favorite products")
 	}
 
-	return favoriteProduct, nil
+	product = user.Favorites[0].Product
+
+	return &product, nil
 }
 
 func DeleteFavoriteProduct(userID uint, productID string) error {
