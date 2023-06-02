@@ -28,6 +28,7 @@ func New() *echo.Echo {
 	p.PUT("/password", controllers.UpdatePasswordController)
 	p.PUT("/name", controllers.UpdateNameController)
 	p.PUT("/phone-number", controllers.UpdatePhoneNumberController)
+	p.PUT("/address", controllers.UpdateAddressController)
 	p.PUT("", controllers.RegisterAsMemberController)
 	p.PUT("/photo", controllers.UpdateUserPhotoController)
 
