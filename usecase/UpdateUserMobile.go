@@ -60,3 +60,15 @@ func UpdatePhoneNumber(id uint, req *payload.Profile) error {
 	}
 	return nil
 }
+
+// update address
+func UpdateAddress(id uint, req *payload.UpdateAddress) error {
+	profile, err := database.GetProfile(id)
+	if err != nil {
+		return err
+	}
+	if err := database.UpdateAddress(profile.ID, req); err != nil {
+		return err
+	}
+	return nil
+}
