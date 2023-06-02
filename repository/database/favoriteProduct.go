@@ -3,55 +3,36 @@ package database
 import (
 	"backend-golang/config"
 	"backend-golang/models"
-	"fmt"
+
+	uuid "github.com/satori/go.uuid"
 )
 
-func AddFavoriteProduct(userID uint, productID string) error {
-	var product models.FavoriteProduct
-	err := config.DB.Where("id = ?", productID).First(&product).Error
-	if err != nil {
+func CheckFavoritProduct(productId uuid.UUID, userId uint) error {
+	if err := config.DB.Where("product_id = ? and user_id = ?", productId, userId).First(&models.FavoriteProduct{}).Error; err != nil {
 		return err
 	}
+	return nil
+}
 
-	product.UserID = userID
-
-	err = config.DB.Save(&product).Error
-	if err != nil {
+func CheckFavouriteIdAndUserId(userID uint, id uint) error {
+	if err := config.DB.Where("user_id =  ?", userID).First(&models.FavoriteProduct{}, id).Error; err != nil {
 		return err
 	}
 
 	return nil
 }
 
-func GetFavoriteProduct(userID uint) (*models.Product, error) {
-	var product models.Product
-	var user models.User
-
-	err := config.DB.Preload("Favourites").Preload("Favourites.Product").First(&user, userID).Error
-	if err != nil {
-		return nil, err
+func AddFavoriteProduct(fav *models.FavoriteProduct) error {
+	if err := config.DB.Save(&fav).Error; err != nil {
+		return err
 	}
-
-	if len(user.Favorites) == 0 {
-		return nil, fmt.Errorf("user has no favorite products")
-	}
-
-	product = user.Favorites[0].Product
-
-	return &product, nil
+	return nil
 }
 
-func DeleteFavoriteProduct(userID uint, productID string) error {
-	var product models.FavoriteProduct
-	err := config.DB.Where("user_id = ? AND id = ?", userID, productID).First(&product).Error
-	if err != nil {
+func DeleteFavoriteProduct(userID uint, id uint) error {
+	var fav models.FavoriteProduct
+	if err := config.DB.Where("user_id = ? AND id = ?", userID, id).Delete(&fav).Error; err != nil {
 		return err
 	}
-
-	err = config.DB.Delete(&product).Error
-	if err != nil {
-		return err
-	}
-
 	return nil
 }
