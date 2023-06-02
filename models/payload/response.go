@@ -22,20 +22,11 @@ type GetMember struct {
 }
 
 type GetFavoriteProduct struct {
-	ID          uuid.UUID `json:"id" form:"id"`
+	ID          uint      `json:"id" form:"id"`
+	ProductID   uuid.UUID `json:"product_id" form:"product_id"`
 	Name        string    `json:"name" form:"name"`
 	Description string    `json:"description" form:"description"`
 	Price       uint      `json:"price" form:"price"`
 	Image       string    `json:"image" form:"image"`
 	Favorite    bool      `json:"favorite" form:"favorite"`
-}
-
-type AddFavoriteProduct struct {
-	UserID    uint      `json:"user_id" form:"user_id"`
-	ProductID uuid.UUID `json:"product_id" form:"product_id"`
-}
-
-type DeleteFavoriteProduct struct {
-	UserID    uint      `json:"user_id" form:"user_id"`
-	ProductID uuid.UUID `json:"product_id" form:"product_id"`
 }
