@@ -40,5 +40,9 @@ func New() *echo.Echo {
 	m.POST("", controllers.RegisterAsMemberController)
 	m.GET("", controllers.ViewMemberInformationController)
 
+	//cart
+	cart := e.Group("/cart", jwt.JWT([]byte(constants.SECRET_KEY)))
+	cart.POST("", controllers.AddToCartController)
+	cart.GET("", controllers.GetCartController)
 	return e
 }
