@@ -79,3 +79,22 @@ func UpdatePhoneNumberController(c echo.Context) error {
 		"message": "Phone number updated successfully",
 	})
 }
+
+// update address
+func UpdateAddressController(c echo.Context) error {
+	userID := middlewares.GetUserLoginId(c)
+
+	var req payload.UpdateAddress
+	if err := c.Bind(&req); err != nil {
+		return echo.NewHTTPError(http.StatusBadRequest, "Invalid request payload")
+	}
+
+	err := usecase.UpdateAddress(userID, &req)
+	if err != nil {
+		return echo.NewHTTPError(http.StatusInternalServerError, err.Error())
+	}
+
+	return c.JSON(http.StatusOK, map[string]interface{}{
+		"message": "Address updated successfully",
+	})
+}
