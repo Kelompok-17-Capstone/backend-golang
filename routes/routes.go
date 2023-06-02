@@ -28,10 +28,12 @@ func New() *echo.Echo {
 	p.PUT("/password", controllers.UpdatePasswordController)
 	p.PUT("/name", controllers.UpdateNameController)
 	p.PUT("/phone-number", controllers.UpdatePhoneNumberController)
+	p.PUT("", controllers.RegisterAsMemberController)
+	p.PUT("/photo", controllers.UpdateUserPhotoController)
 
 	products := e.Group("admin/products", jwt.JWT([]byte(constants.SECRET_KEY)))
-	products.POST("", controllers.CreateProdcutController)
-	products.GET("", controllers.GetAllProductController)
+	products.GET("", controllers.GetProductsController)
+	products.POST("", controllers.CreateProductController)
 	products.GET("/:id", controllers.GetProductByIDController)
 	products.DELETE("/:id", controllers.DeleteProductController)
 	products.PUT("/:id", controllers.UpdateProductController)
@@ -39,10 +41,6 @@ func New() *echo.Echo {
 	users := e.Group("admin/users", jwt.JWT([]byte(constants.SECRET_KEY)))
 	users.GET("", controllers.GetUsersController)
 	users.GET("/:id", controllers.GetUserController)
-
-	m := e.Group("member", jwt.JWT([]byte(constants.SECRET_KEY)))
-	m.POST("", controllers.RegisterAsMemberController)
-	m.GET("", controllers.ViewMemberInformationController)
 
 	return e
 }
