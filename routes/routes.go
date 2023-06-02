@@ -39,7 +39,7 @@ func New() *echo.Echo {
 
 	favoriteProducts := e.Group("favorite", jwt.JWT([]byte(constants.SECRET_KEY)))
 	favoriteProducts.GET("", controllers.GetFavoriteProductController)
-	favoriteProducts.POST("/:id", controllers.AddFavoriteProductController)
+	favoriteProducts.POST("", controllers.AddFavoriteProductController)
 	favoriteProducts.DELETE("/:id", controllers.DeleteFavoriteProductController)
 
 	return e
