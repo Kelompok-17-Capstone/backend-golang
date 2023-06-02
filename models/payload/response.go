@@ -20,3 +20,13 @@ type GetMember struct {
 	Image       string `json:"image" form:"image"`
 	MemberCode  string `json:"member_code" form:"member_code"`
 }
+
+type GetFavoriteProduct struct {
+	ID          uint      `json:"id" form:"id"`
+	ProductID   uuid.UUID `json:"product_id" form:"product_id"`
+	Name        string    `json:"name" form:"name"`
+	Description string    `json:"description" form:"description"`
+	Price       uint      `json:"price" form:"price"`
+	Image       string    `json:"image" form:"image"`
+	Favorite    bool      `json:"favorite" form:"favorite"`
+}

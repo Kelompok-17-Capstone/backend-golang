@@ -61,3 +61,7 @@ type UpdateAddress struct {
 	Province string `json:"province" form:"province"`
 	City     string `json:"city" form:"city"`
 }
+
+type AddFavoriteProduct struct {
+	ProductID string `json:"product_id" form:"product_id"`
+}
