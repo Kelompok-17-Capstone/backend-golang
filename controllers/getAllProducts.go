@@ -11,11 +11,11 @@ import (
 
 // get all product
 
-func GetAllProductController(c echo.Context) error {
+func GetProductsController(c echo.Context) error {
 	var products []payload.ProductResponse
 	status := c.QueryParam("status")
 	keyword := c.QueryParam("keyword")
-	products, err := usecase.GetAllProduct(status, keyword)
+	products, err := usecase.GetProducts(status, keyword)
 	if err != nil {
 		return echo.NewHTTPError(http.StatusBadRequest, err.Error())
 	}
@@ -40,3 +40,19 @@ func GetProductByIDController(c echo.Context) error {
 	})
 
 }
+
+// func GetProductsMobileController(c echo.Context) error {
+// 	var products []payload.ProductResponse
+// 	tab := c.QueryParam("tab")
+// 	keyword := c.QueryParam("keyword")
+// 	order := c.QueryParam("order")
+// 	products, err := usecase.GetProductsMobile(keyword, tab, order)
+// 	if err != nil {
+// 		return echo.NewHTTPError(http.StatusBadRequest, err.Error())
+// 	}
+
+// 	return c.JSON(http.StatusOK, map[string]interface{}{
+// 		"message":  "success get all product",
+// 		"products": products,
+// 	})
+// }
