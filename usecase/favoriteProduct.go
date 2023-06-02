@@ -53,7 +53,7 @@ func GetFavoriteProduct(userID uint) ([]payload.GetFavoriteProduct, error) {
 }
 
 func DeleteFavoriteProduct(userID uint, id uint) error {
-	if err := database.CheckFavouriteIdAndUserId(userID, id); err != nil {
+	if err := database.CheckFavoriteIdAndUserId(userID, id); err != nil {
 		return fmt.Errorf("failed to delete favorite product")
 	}
 

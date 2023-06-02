@@ -14,7 +14,7 @@ func CheckFavoritProduct(productId uuid.UUID, userId uint) error {
 	return nil
 }
 
-func CheckFavouriteIdAndUserId(userID uint, id uint) error {
+func CheckFavoriteIdAndUserId(userID uint, id uint) error {
 	if err := config.DB.Where("user_id =  ?", userID).First(&models.FavoriteProduct{}, id).Error; err != nil {
 		return err
 	}
