@@ -21,14 +21,14 @@ func AddToDetailCart(cartProduct *models.DetailCartItem) error {
 }
 func GetCartItemByUserID(id uint) (*models.CartItem, error) {
 	resp := &models.CartItem{}
-	if err := config.DB.Model(&models.CartItem{}).Preload("DetailCartItem.Product").Where("user_id = ?", id).First(resp).Error; err != nil {
+	if err := config.DB.Model(&models.CartItem{}).Preload("DetailCartItems.Products").Where("user_id = ?", id).First(&resp).Error; err != nil {
 		return resp, err
 	}
 	return resp, nil
 }
 
-func UpdateDetailCartItem(cartItem *models.DetailCartItem) error {
-	if err := config.DB.Save(cartItem).Error; err != nil {
+func UpdateDetailCartItem(quantity uint, cartItemID uint) error {
+	if err := config.DB.Model(&models.DetailCartItem{}).Where("id = ?", cartItemID).Update("quantity", quantity).Error; err != nil {
 		return err
 	}
 	return nil

@@ -28,16 +28,16 @@ func AddToCart(userID uint, productID uuid.UUID, quantity uint) error {
 		}
 	}
 	var detailCart *models.DetailCartItem
-	for _, cp := range cart.DetailCartItem {
-		if cp.ProductID == productID {
-			detailCart = &cp
+	for _, val := range cart.DetailCartItems {
+		if val.Products.ID == productID {
+			detailCart = &val
 			break
 		}
 	}
 
 	if detailCart != nil {
 		detailCart.Quantity += quantity
-		err = database.UpdateDetailCartItem(detailCart)
+		err = database.UpdateDetailCartItem(detailCart.Quantity, detailCart.ID)
 		if err != nil {
 			return err
 		}

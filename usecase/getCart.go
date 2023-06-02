@@ -15,7 +15,7 @@ func GetCart(id uint) (resp payload.GetCart, err error) {
 		ID:     cart.ID,
 		UserID: cart.UserID,
 	}
-	for _, detail := range cart.DetailCartItem {
+	for _, detail := range cart.DetailCartItems {
 		item := payload.DetailCartItem{
 			CartItemID: detail.CartItemID,
 			ProductID:  detail.ProductID,

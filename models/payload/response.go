@@ -9,12 +9,16 @@ type ProductResponse struct {
 	Stock       uint      `json:"stock" form:"stock"`
 	Price       uint      `json:"price" form:"price"`
 	Image       string    `json:"image" form:"image"`
+	Status      string    `json:"status" form:"status"`
 }
 type GetMember struct {
-	ID         uint   `json:"id" form:"id"`
-	Name       string `json:"name" form:"name"`
-	Image      string `json:"image" form:"image"`
-	MemberCode string `json:"member_code" form:"member_code"`
+	ID          uint   `json:"id" form:"id"`
+	Name        string `json:"name" form:"name"`
+	Email       string `json:"email" form:"email"`
+	PhoneNumber string `json:"phone_number" form:"phone_number"`
+	Address     string `json:"address" form:"address"`
+	Image       string `json:"image" form:"image"`
+	MemberCode  string `json:"member_code" form:"member_code"`
 }
 type GetCart struct {
 	ID     uint `json:"id" form:"id"`
