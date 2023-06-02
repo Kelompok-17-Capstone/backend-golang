@@ -27,7 +27,7 @@ func GetUsers(req *payload.UsersParam) ([]models.User, error) {
 // get user by id
 
 func GetUser(id uint) (resp models.User, err error) {
-	if err := config.DB.Preload("Profile.Address").Where("id = ?", id).Not("role = ?", "admin").First(&resp).Error; err != nil {
+	if err := config.DB.Preload("Profile.Address").Preload("Favorites.Product").Where("id = ?", id).Not("role = ?", "admin").First(&resp).Error; err != nil {
 		return resp, err
 	}
 	return
