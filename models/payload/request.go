@@ -45,3 +45,7 @@ type UpdateProduct struct {
 	Price       uint   `json:"price" form:"price"`
 	Image       string `json:"image" form:"image"`
 }
+
+type AddFavoriteProduct struct {
+	ProductID string `json:"product_id" form:"product_id"`
+}
