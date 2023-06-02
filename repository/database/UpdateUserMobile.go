@@ -3,6 +3,7 @@ package database
 import (
 	"backend-golang/config"
 	"backend-golang/models"
+	"backend-golang/models/payload"
 )
 
 // update user email
@@ -24,7 +25,7 @@ func GetUserById(id uint) (user models.User, err error) {
 
 // upadate Name User
 func UpdateName(id uint, name string) error {
-	if err := config.DB.Model(&models.Profile{}).Where("id = ?", id).Update("name", name).Error; err != nil {
+	if err := config.DB.Model(&models.Profile{}).Where("user_id = ?", id).Update("name", name).Error; err != nil {
 		return err
 	}
 	return nil
@@ -32,8 +33,28 @@ func UpdateName(id uint, name string) error {
 
 // update phone number
 func UpdatePhoneNumber(id uint, phoneNumber string) error {
-	if err := config.DB.Model(&models.Profile{}).Where("id = ?", id).Update("phone_number", phoneNumber).Error; err != nil {
+	if err := config.DB.Model(&models.Profile{}).Where("user_id = ?", id).Update("phone_number", phoneNumber).Error; err != nil {
 		return err
 	}
 	return nil
+}
+
+// update address
+func UpdateAddress(id uint, req *payload.UpdateAddress) error {
+	if err := config.DB.Model(&models.Address{}).Where("profile_id = ?", id).Updates(models.Address{
+		Address:  req.Address,
+		City:     req.City,
+		Province: req.Province,
+	}).Error; err != nil {
+		return err
+	}
+	return nil
+}
+
+// get profile by id
+func GetProfile(id uint) (resp models.Profile, err error) {
+	if err := config.DB.Where("user_id = ?", id).First(&resp).Error; err != nil {
+		return resp, err
+	}
+	return
 }
