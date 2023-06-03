@@ -31,7 +31,8 @@ func AddFavoriteProduct(fav *models.FavoriteProduct) error {
 
 func DeleteFavoriteProduct(userID uint, id uint) error {
 	var fav models.FavoriteProduct
-	if err := config.DB.Where("user_id = ? AND id = ?", userID, id).Delete(&fav).Error; err != nil {
+	config.DB.First(&fav, id)
+	if err := config.DB.Where("user_id = ? AND id = ?", userID, id).Delete(&models.FavoriteProduct{ProductID: fav.ProductID}).Error; err != nil {
 		return err
 	}
 	return nil

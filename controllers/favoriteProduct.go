@@ -19,7 +19,9 @@ func AddFavoriteProductController(c echo.Context) error {
 		return c.JSON(http.StatusInternalServerError, echo.NewHTTPError(http.StatusBadRequest, err.Error()))
 	}
 
-	return c.JSON(http.StatusCreated, "Favorite product added successfully")
+	return c.JSON(http.StatusCreated, map[string]interface{}{
+		"message": "Favorite product added successfully",
+	})
 }
 
 func GetFavoriteProductController(c echo.Context) error {
