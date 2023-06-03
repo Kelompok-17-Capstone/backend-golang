@@ -20,7 +20,19 @@ type GetMember struct {
 	Image       string `json:"image" form:"image"`
 	MemberCode  string `json:"member_code" form:"member_code"`
 }
-
+type GetCart struct {
+	ID     uint `json:"id" form:"id"`
+	UserID uint `json:"user_id" form:"user_id"`
+	// ProductID      uuid.UUID        `json:"product_id" form:"product_id"`
+	// Quantity       uint             `json:"quatity" form:"quantity"`
+	DetailCartItem []DetailCartItem `json:"detail_cart_item"`
+}
+type DetailCartItem struct {
+	ID         uint      `json:"id" form:"id"`
+	CartItemID uint      `json:"cart_item_id"`
+	ProductID  uuid.UUID `json:"product_id"`
+	Quantity   uint      `json:"quantity"`
+}
 type GetFavoriteProduct struct {
 	ID          uint      `json:"id" form:"id"`
 	ProductID   uuid.UUID `json:"product_id" form:"product_id"`

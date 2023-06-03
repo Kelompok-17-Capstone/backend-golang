@@ -43,6 +43,17 @@ func New() *echo.Echo {
 	users.GET("", controllers.GetUsersController)
 	users.GET("/:id", controllers.GetUserController)
 
+	m := e.Group("member", jwt.JWT([]byte(constants.SECRET_KEY)))
+	m.POST("", controllers.RegisterAsMemberController)
+	m.GET("", controllers.ViewMemberInformationController)
+
+	//cart
+	cart := e.Group("/cart", jwt.JWT([]byte(constants.SECRET_KEY)))
+	cart.POST("", controllers.AddToCartController)
+	cart.GET("", controllers.GetCartController)
+	cart.DELETE("/:id", controllers.DeleteDetailCartItemController)
+	cart.PUT("/:id", controllers.UpdateDetailCartItemController)
+
 	favoriteProducts := e.Group("favorite", jwt.JWT([]byte(constants.SECRET_KEY)))
 	favoriteProducts.GET("", controllers.GetFavoriteProductController)
 	favoriteProducts.POST("", controllers.AddFavoriteProductController)
