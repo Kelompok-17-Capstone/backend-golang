@@ -48,6 +48,26 @@ type UpdateProduct struct {
 	Image       string `json:"image" form:"image"`
 }
 
+type UpdateEmail struct {
+	Email string `json:"email" form:"email" validate:"required,email"`
+}
+
+type UpdatePassword struct {
+	OldPassword    string `json:"old_password" form:"old_password" validate:"required"`
+	NewPassword    string `json:"new_password" form:"new_password" validate:"require, min=8"`
+	RetypePassword string `json:"retype_password" form:"retype_password" validate:"required"`
+}
+
+type UpdateAddress struct {
+	Address  string `json:"address" form:"address"`
+	Province string `json:"province" form:"province"`
+	City     string `json:"city" form:"city"`
+}
+
+type AddFavoriteProduct struct {
+	ProductID string `json:"product_id" form:"product_id"`
+}
+
 type AddToCart struct {
 	UserID    uint      `json:"user_id" form:"user_id"`
 	ProductID uuid.UUID `json:"product_id" form:"product_id"`

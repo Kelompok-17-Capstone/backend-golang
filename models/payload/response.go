@@ -33,3 +33,12 @@ type DetailCartItem struct {
 	ProductID  uuid.UUID `json:"product_id"`
 	Quantity   uint      `json:"quantity"`
 }
+type GetFavoriteProduct struct {
+	ID          uint      `json:"id" form:"id"`
+	ProductID   uuid.UUID `json:"product_id" form:"product_id"`
+	Name        string    `json:"name" form:"name"`
+	Description string    `json:"description" form:"description"`
+	Price       uint      `json:"price" form:"price"`
+	Image       string    `json:"image" form:"image"`
+	Favorite    bool      `json:"favorite" form:"favorite"`
+}

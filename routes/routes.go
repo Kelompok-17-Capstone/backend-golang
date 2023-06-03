@@ -23,6 +23,12 @@ func New() *echo.Echo {
 	p := e.Group("profile", jwt.JWT([]byte(constants.SECRET_KEY)))
 	p.GET("", controllers.ViewMemberInformationController)
 	p.POST("", controllers.CreateUserProfileController)
+	p.POST("/photo", controllers.UpdateUserPhotoController)
+	p.PUT("/email", controllers.UpdateUserEmailController)
+	p.PUT("/password", controllers.UpdatePasswordController)
+	p.PUT("/name", controllers.UpdateNameController)
+	p.PUT("/phone-number", controllers.UpdatePhoneNumberController)
+	p.PUT("/address", controllers.UpdateAddressController)
 	p.PUT("", controllers.RegisterAsMemberController)
 	p.PUT("/photo", controllers.UpdateUserPhotoController)
 
@@ -47,6 +53,11 @@ func New() *echo.Echo {
 	cart.GET("", controllers.GetCartController)
 	cart.DELETE("/:id", controllers.DeleteDetailCartItemController)
 	cart.PUT("/:id", controllers.UpdateDetailCartItemController)
+
+	favoriteProducts := e.Group("favorite", jwt.JWT([]byte(constants.SECRET_KEY)))
+	favoriteProducts.GET("", controllers.GetFavoriteProductController)
+	favoriteProducts.POST("", controllers.AddFavoriteProductController)
+	favoriteProducts.DELETE("/:id", controllers.DeleteFavoriteProductController)
 
 	return e
 }
