@@ -53,3 +53,6 @@ type AddToCart struct {
 	ProductID uuid.UUID `json:"product_id" form:"product_id"`
 	Quantity  uint      `json:"quantity" form:"quantity"`
 }
+type UpdateQtyCart struct {
+	Quantity uint `json:"quantity" form:"quantity"`
+}

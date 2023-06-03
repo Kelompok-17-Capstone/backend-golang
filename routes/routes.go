@@ -45,5 +45,8 @@ func New() *echo.Echo {
 	cart := e.Group("/cart", jwt.JWT([]byte(constants.SECRET_KEY)))
 	cart.POST("", controllers.AddToCartController)
 	cart.GET("", controllers.GetCartController)
+	cart.DELETE("/:id", controllers.DeleteDetailCartItemController)
+	cart.PUT("/:id", controllers.UpdateDetailCartItemController)
+
 	return e
 }

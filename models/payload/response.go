@@ -28,6 +28,7 @@ type GetCart struct {
 	DetailCartItem []DetailCartItem `json:"detail_cart_item"`
 }
 type DetailCartItem struct {
+	ID         uint      `json:"id" form:"id"`
 	CartItemID uint      `json:"cart_item_id"`
 	ProductID  uuid.UUID `json:"product_id"`
 	Quantity   uint      `json:"quantity"`
