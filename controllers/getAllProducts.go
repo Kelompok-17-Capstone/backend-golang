@@ -42,11 +42,10 @@ func GetProductByIDController(c echo.Context) error {
 }
 
 func GetProductsMobileController(c echo.Context) error {
-	var products []payload.ProductResponse
 	tab := c.QueryParam("tab")
 	keyword := c.QueryParam("keyword")
-	order := c.QueryParam("order")
-	products, err := usecase.GetProductsMobile(keyword, tab, order)
+	price := c.QueryParam("price")
+	products, err := usecase.GetProductsMobile(keyword, tab, price)
 	if err != nil {
 		return echo.NewHTTPError(http.StatusBadRequest, err.Error())
 	}

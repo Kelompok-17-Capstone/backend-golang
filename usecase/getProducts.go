@@ -54,15 +54,15 @@ func GetProductByid(id uuid.UUID) (resp payload.ProductResponse, err error) {
 	return
 }
 
-func GetProductsMobile(keyword, tab, order string) (resp []payload.ProductResponse, err error) {
+func GetProductsMobile(keyword, tab, price string) (resp []payload.ProductMobileResponse, err error) {
 	req := payload.ProductParam{
 		Keyword: keyword,
 		Tab:     tab,
-		Order:   order,
+		Price:   price,
 	}
 	products, err := database.GetProductsMobile(&req)
 	if err != nil {
-		return []payload.ProductResponse{}, err
+		return resp, err
 	}
 	for _, product := range products {
 		var status string
@@ -71,7 +71,7 @@ func GetProductsMobile(keyword, tab, order string) (resp []payload.ProductRespon
 		} else {
 			status = "habis"
 		}
-		resp = append(resp, payload.ProductResponse{
+		resp = append(resp, payload.ProductMobileResponse{
 			ID:          product.ID,
 			Name:        product.Name,
 			Description: product.Description,
@@ -79,6 +79,7 @@ func GetProductsMobile(keyword, tab, order string) (resp []payload.ProductRespon
 			Price:       product.Price,
 			Image:       product.Image,
 			Status:      status,
+			Favorit:     int(product.Favorite),
 		})
 	}
 	return
