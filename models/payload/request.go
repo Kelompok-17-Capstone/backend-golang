@@ -14,7 +14,7 @@ type Login struct {
 type ProductParam struct {
 	Keyword string
 	Status  string
-	Order   string
+	Price   string
 	Tab     string
 }
 
