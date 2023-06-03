@@ -1,5 +1,7 @@
 package payload
 
+import uuid "github.com/satori/go.uuid"
+
 type Register struct {
 	Email          string `json:"email" form:"email" validate:"required,email"`
 	Password       string `json:"password" form:"password" validate:"required,min=8"`
@@ -64,4 +66,13 @@ type UpdateAddress struct {
 	Address  string `json:"address" form:"address"`
 	Province string `json:"province" form:"province"`
 	City     string `json:"city" form:"city"`
+}
+
+type AddToCart struct {
+	UserID    uint      `json:"user_id" form:"user_id"`
+	ProductID uuid.UUID `json:"product_id" form:"product_id"`
+	Quantity  uint      `json:"quantity" form:"quantity"`
+}
+type UpdateQtyCart struct {
+	Quantity uint `json:"quantity" form:"quantity"`
 }
