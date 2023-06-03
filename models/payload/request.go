@@ -16,7 +16,7 @@ type Login struct {
 type ProductParam struct {
 	Keyword string
 	Status  string
-	Order   string
+	Price   string
 	Tab     string
 }
 
@@ -58,14 +58,14 @@ type UpdatePassword struct {
 	RetypePassword string `json:"retype_password" form:"retype_password" validate:"required"`
 }
 
+type AddFavoriteProduct struct {
+	ProductID string `json:"product_id" form:"product_id"`
+}
+
 type UpdateAddress struct {
 	Address  string `json:"address" form:"address"`
 	Province string `json:"province" form:"province"`
 	City     string `json:"city" form:"city"`
-}
-
-type AddFavoriteProduct struct {
-	ProductID string `json:"product_id" form:"product_id"`
 }
 
 type AddToCart struct {

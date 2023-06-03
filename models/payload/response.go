@@ -11,6 +11,16 @@ type ProductResponse struct {
 	Image       string    `json:"image" form:"image"`
 	Status      string    `json:"status" form:"status"`
 }
+type ProductMobileResponse struct {
+	ID          uuid.UUID `json:"id" form:"id"`
+	Name        string    `json:"name" form:"name"`
+	Description string    `json:"description" form:"description"`
+	Stock       uint      `json:"stock" form:"stock"`
+	Price       uint      `json:"price" form:"price"`
+	Image       string    `json:"image" form:"image"`
+	Status      string    `json:"status" form:"status"`
+	Favorit     int       `json:"favorit" form:"favorit"`
+}
 type GetMember struct {
 	ID          uint   `json:"id" form:"id"`
 	Name        string `json:"name" form:"name"`

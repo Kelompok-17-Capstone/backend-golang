@@ -41,18 +41,17 @@ func GetProductByIDController(c echo.Context) error {
 
 }
 
-// func GetProductsMobileController(c echo.Context) error {
-// 	var products []payload.ProductResponse
-// 	tab := c.QueryParam("tab")
-// 	keyword := c.QueryParam("keyword")
-// 	order := c.QueryParam("order")
-// 	products, err := usecase.GetProductsMobile(keyword, tab, order)
-// 	if err != nil {
-// 		return echo.NewHTTPError(http.StatusBadRequest, err.Error())
-// 	}
+func GetProductsMobileController(c echo.Context) error {
+	tab := c.QueryParam("tab")
+	keyword := c.QueryParam("keyword")
+	price := c.QueryParam("price")
+	products, err := usecase.GetProductsMobile(keyword, tab, price)
+	if err != nil {
+		return echo.NewHTTPError(http.StatusBadRequest, err.Error())
+	}
 
-// 	return c.JSON(http.StatusOK, map[string]interface{}{
-// 		"message":  "success get all product",
-// 		"products": products,
-// 	})
-// }
+	return c.JSON(http.StatusOK, map[string]interface{}{
+		"message":  "success get all product",
+		"products": products,
+	})
+}
