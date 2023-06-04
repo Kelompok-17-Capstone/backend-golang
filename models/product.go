@@ -14,6 +14,7 @@ type Product struct {
 	Stock       uint   `json:"stock" form:"stock"`
 	Price       uint   `json:"price" form:"price"`
 	Image       string `json:"image" form:"image"`
+	Favorite    uint   `json:"favorite" form:"favorite"`
 }
 type Base struct {
 	ID        uuid.UUID  `gorm:"type:char(36);primary_key"`

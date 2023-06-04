@@ -5,11 +5,13 @@ import (
 	"backend-golang/repository/database"
 )
 
-func GetUsers() (response []payload.GetUser, err error) {
-	users, err := database.GetUsers()
-	if err != nil {
-		return
+func GetUsers(keyword, role string) (response []payload.GetUser, err error) {
+	req := payload.UsersParam{
+		Keyword: keyword,
+		Role:    role,
 	}
+	users, err := database.GetUsers(&req)
+
 	for _, user := range users {
 		address := user.Profile.Address.Address + ", " + user.Profile.Address.City + ", " + user.Profile.Address.Province
 		response = append(response, payload.GetUser{
@@ -18,6 +20,7 @@ func GetUsers() (response []payload.GetUser, err error) {
 			Email:       user.Email,
 			PhoneNumber: user.Profile.PhoneNumber,
 			Address:     address,
+			Status:      user.Role,
 		})
 	}
 	return

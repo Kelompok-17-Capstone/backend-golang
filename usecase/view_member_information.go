@@ -25,12 +25,15 @@ func ViewMemberInformation(id uint) (payload.GetMember, error) {
 	if err != nil {
 		return payload.GetMember{}, err
 	}
-
+	address := user.Profile.Address.Address + ", " + user.Profile.Address.City + ", " + user.Profile.Address.Province
 	resp := payload.GetMember{
-		ID:         user.ID,
-		Name:       username,
-		Image:      user.Profile.Photo,
-		MemberCode: memberCode,
+		ID:          user.ID,
+		Name:        username,
+		Email:       user.Email,
+		PhoneNumber: user.Profile.PhoneNumber,
+		Address:     address,
+		Image:       user.Profile.Photo,
+		MemberCode:  memberCode,
 	}
 	return resp, nil
 }
