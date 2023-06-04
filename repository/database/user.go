@@ -12,6 +12,13 @@ func GetUserByEmail(email string) (user models.User, err error) {
 	return
 }
 
+func GetUserProfile(id uint) (resp *models.Profile, err error) {
+	if err := config.DB.Where("user_id = ?", id).First(&resp).Error; err != nil {
+		return resp, err
+	}
+	return resp, nil
+}
+
 func CreateUserProfil(req *models.Profile) error {
 	if err := config.DB.Save(&req).Error; err != nil {
 		return err
@@ -19,8 +26,22 @@ func CreateUserProfil(req *models.Profile) error {
 	return nil
 }
 
+func UpdateUserProfil(req *models.Profile, id uint) error {
+	if err := config.DB.Model(&req).Where("user_id = ?", id).Updates(&req).Error; err != nil {
+		return err
+	}
+	return nil
+}
+
 func CreateUserAddress(req *models.Address) error {
 	if err := config.DB.Save(&req).Error; err != nil {
+		return err
+	}
+	return nil
+}
+
+func UpdateUserAddress(req *models.Address, id uint) error {
+	if err := config.DB.Model(&req).Where("profile_id = ?", id).Updates(&req).Error; err != nil {
 		return err
 	}
 	return nil
