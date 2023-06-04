@@ -1,7 +1,7 @@
 package controllers
 
 import (
-	"backend-golang/models"
+	"backend-golang/models/payload"
 	"backend-golang/usecase"
 	"net/http"
 	"strconv"
@@ -10,16 +10,11 @@ import (
 )
 
 func UpdateUserController(c echo.Context) error {
-	id, _ := strconv.ParseUint(c.Param("id"), 10, 32)
-	user := models.User{}
-	c.Bind(&user)
-	user.ID = uint(id)
-	if err := usecase.UpdateUser(&user); err != nil {
-		return c.JSON(http.StatusBadRequest, map[string]interface{}{
-			"messages":         "error update user",
-			"errorDescription": err,
-			"errorMessage":     "Mohon Maaf user tidak dapat di ubah",
-		})
+	id, _ := strconv.Atoi(c.Param("id"))
+	req := payload.UpdateUser{}
+	c.Bind(&req)
+	if err := usecase.UpdateUser(&req, uint(id)); err != nil {
+		return c.JSON(http.StatusBadRequest, echo.NewHTTPError(http.StatusBadRequest, err.Error()))
 	}
 
 	return c.JSON(http.StatusOK, map[string]interface{}{

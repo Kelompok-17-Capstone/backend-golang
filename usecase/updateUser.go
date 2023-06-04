@@ -2,15 +2,35 @@ package usecase
 
 import (
 	"backend-golang/models"
+	"backend-golang/models/payload"
 	"backend-golang/repository/database"
-	"fmt"
 )
 
-func UpdateUser(user *models.User) (err error) {
-	err = database.UpdateUser(user)
+func UpdateUser(req *payload.UpdateUser, id uint) (err error) {
+	if _, err := database.GetUser(id); err != nil {
+		return err
+	}
+	profile := models.Profile{
+		Name:        req.Name,
+		PhoneNumber: req.PhoneNumber,
+	}
+	if err := database.UpdateUserProfil(&profile, id); err != nil {
+		return err
+	}
+	profil, err := database.GetUserProfile(id)
 	if err != nil {
-		fmt.Println("UpdateUser : Error updating user, err: ", err)
-		return
+		return err
+	}
+	address := models.Address{
+		Address:  req.Address,
+		City:     req.City,
+		Province: req.Province,
+	}
+	if err := database.UpdateUserAddress(&address, profil.ID); err != nil {
+		return err
+	}
+	if err := database.UpdateUserRole(id, req.Status); err != nil {
+		return err
 	}
 
 	return
