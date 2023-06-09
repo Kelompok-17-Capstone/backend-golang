@@ -13,7 +13,7 @@ func GetUsers(keyword, role string) (response []payload.GetUser, err error) {
 	users, err := database.GetUsers(&req)
 
 	for _, user := range users {
-		address := user.Profile.Address.Address + ", " + user.Profile.Address.City + ", " + user.Profile.Address.Province
+		address := user.Profile.Address[0].Address + ", " + user.Profile.Address[0].City + ", " + user.Profile.Address[0].Province
 		response = append(response, payload.GetUser{
 			ID:          user.ID,
 			Name:        user.Profile.Name,
@@ -31,7 +31,7 @@ func GetUser(id uint) (resp payload.GetUser, err error) {
 	if err != nil {
 		return payload.GetUser{}, err
 	}
-	address := user.Profile.Address.Address + ", " + user.Profile.Address.City + ", " + user.Profile.Address.Province
+	address := user.Profile.Address[0].Address + ", " + user.Profile.Address[0].City + ", " + user.Profile.Address[0].Province
 	resp = payload.GetUser{
 		ID:          user.ID,
 		Name:        user.Profile.Name,

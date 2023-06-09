@@ -7,10 +7,10 @@ import (
 	"strings"
 )
 
-func ViewMemberInformation(id uint) (payload.GetMember, error) {
+func ViewMemberInformation(id uint) (payload.GetMemberMobile, error) {
 	user, err := database.ViewMemberInformation(id)
 	if err != nil {
-		return payload.GetMember{}, err
+		return payload.GetMemberMobile{}, err
 	}
 
 	words := strings.Fields(user.Profile.Name)
@@ -23,10 +23,13 @@ func ViewMemberInformation(id uint) (payload.GetMember, error) {
 
 	memberCode, err := database.GetMemberCode(user.ID)
 	if err != nil {
-		return payload.GetMember{}, err
+		return payload.GetMemberMobile{}, err
 	}
-	address := user.Profile.Address.Address + ", " + user.Profile.Address.City + ", " + user.Profile.Address.Province
-	resp := payload.GetMember{
+	var address []string
+	for _, value := range user.Profile.Address {
+		address = append(address, value.Address+", "+value.City+", "+value.Province)
+	}
+	resp := payload.GetMemberMobile{
 		ID:          user.ID,
 		Name:        username,
 		Email:       user.Email,
