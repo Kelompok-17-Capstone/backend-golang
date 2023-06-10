@@ -15,15 +15,6 @@ func GetUserRole(userID uint) (string, error) {
 	}
 	return user.Role, nil
 }
-
-func findCoinByID(topup *models.Balance, coinID uint) (*models.Coin, error) {
-	for i := range topup.Coins {
-		if topup.Coins[i].UserID == coinID {
-			return &topup.Coins[i], nil
-		}
-	}
-	return nil, nil
-}
 func CreateTopup(userID uint, total uint) error {
 	existingTopup, err := database.GetBalanceByUserID(userID)
 	if err != nil && !errors.Is(err, gorm.ErrRecordNotFound) {
@@ -46,31 +37,28 @@ func CreateTopup(userID uint, total uint) error {
 			}
 			coinTotal := uint(float32(total) * 0.01)
 			newCoin := &models.Coin{
-				UserID:    userID,
-				BalanceID: newTopup.ID,
-				Total:     coinTotal,
-				Status:    "increase",
+				UserID: userID,
+				Total:  coinTotal,
+				Status: "increase",
 			}
 			err = database.CreateCoin(newCoin)
 			if err != nil {
 				return err
 			}
 		} else {
-			coin, err := findCoinByID(existingTopup, userID)
+			existingTopup.Total += total
+			err = database.UpdateTopup(existingTopup.Total, existingTopup.ID)
 			if err != nil {
 				return err
 			}
+			// Saldo sudah ada, tidak perlu melakukan pembaruan pada koin
 			coinTotal := uint(float32(total) * 0.01)
-			if coin != nil {
-				// Pengguna sudah memiliki koin, perbarui nilai total koin
-				coin.Total += coinTotal
-				err = database.UpdateCoin(coin.ID, coin.Total)
-				if err != nil {
-					return err
-				}
+			newCoin := &models.Coin{
+				UserID: userID,
+				Total:  coinTotal,
+				Status: "increase",
 			}
-			existingTopup.Total += total
-			err = database.UpdateTopup(existingTopup.Total, existingTopup.ID)
+			err = database.CreateCoin(newCoin)
 			if err != nil {
 				return err
 			}
