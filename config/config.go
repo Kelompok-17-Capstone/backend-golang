@@ -50,5 +50,6 @@ func InitDB() {
 }
 
 func InitialMigration() {
-	DB.AutoMigrate(&models.User{}, &models.Profile{}, &models.Address{}, &models.Product{}, &models.FavoriteProduct{}, models.CartItem{}, models.DetailCartItem{})
+	DB.AutoMigrate(&models.User{}, &models.Profile{}, &models.Address{}, &models.Product{}, &models.FavoriteProduct{},
+		&models.CartItem{}, &models.DetailCartItem{}, &models.Order{}, &models.OrderDetail{})
 }
