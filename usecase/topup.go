@@ -5,7 +5,7 @@ import (
 	"backend-golang/repository/database"
 )
 
-func CreateTopup(userID uint, total uint) error {
+func CreateTopup(userID uint, total int) error {
 	user, err := database.GetUser(userID)
 	if err != nil {
 		return err
@@ -23,7 +23,7 @@ func CreateTopup(userID uint, total uint) error {
 	user.Balance += total
 
 	if user.Role == "member" {
-		coinTotal := uint(float32(total) * 0.01)
+		coinTotal := int(float32(total) * 0.01)
 		coin := &models.Coin{
 			UserID: userID,
 			Total:  coinTotal,

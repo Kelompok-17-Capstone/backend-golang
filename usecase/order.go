@@ -42,6 +42,23 @@ func CreateOrder(userId uint, req *payload.CreateOrder) error {
 	// update saldo dikurangi total price
 	user.Balance -= int(grandTotalPrice)
 	user.Coin -= coin
+
+	if err := database.CreateTopup(&models.Balance{
+		UserID: userId,
+		Total:  int(grandTotalPrice),
+		Status: "decrease",
+	}); err != nil {
+		return nil
+	}
+
+	if err := database.CreateCoin(&models.Coin{
+		UserID: userId,
+		Total:  coin,
+		Status: "decrease",
+	}); err != nil {
+		return nil
+	}
+
 	if err := database.UpdateUser(&user); err != nil {
 		return err
 	}

@@ -11,8 +11,8 @@ type User struct {
 	MemberCode string            `json:"member_code" form:"member_code"`
 	Orders     []Order           `gorm:"foreignKey:UserID"`
 	Carts      CartItem          `gorm:"foreignKey:UserID"`
-	Balance    uint              `json:"balance" form:"balance"`
-	Coin       uint              `json:"coin" form:"coin"`
+	Balance    int               `json:"balance" form:"balance"`
+	Coin       int               `json:"coin" form:"coin"`
 	Profile    Profile           `gorm:"foreignKey:UserID"`
 	Favorites  []FavoriteProduct `gorm:"foreignKey:UserID"`
 	Balances   []Balance         `gorm:"foreignKey:UserID"`
