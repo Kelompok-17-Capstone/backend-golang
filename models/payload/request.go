@@ -62,7 +62,7 @@ type UpdatePhoneNumber struct {
 }
 type UpdatePassword struct {
 	OldPassword    string `json:"old_password" form:"old_password" validate:"required"`
-	NewPassword    string `json:"new_password" form:"new_password" validate:"required, min=8"`
+	NewPassword    string `json:"new_password" form:"new_password" validate:"required,min=8"`
 	RetypePassword string `json:"retype_password" form:"retype_password" validate:"required"`
 }
 

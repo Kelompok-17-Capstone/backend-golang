@@ -34,6 +34,10 @@ func UpdatePasswordController(c echo.Context) error {
 		return echo.NewHTTPError(http.StatusBadRequest, "Invalid request payload")
 	}
 
+	if err := c.Validate(req); err != nil {
+		return err
+	}
+
 	user, err := usecase.UpdatePassword(userID, &req)
 	if err != nil {
 		return echo.NewHTTPError(http.StatusInternalServerError, err.Error())
@@ -68,6 +72,11 @@ func UpdatePhoneNumberController(c echo.Context) error {
 	var req payload.UpdatePhoneNumber
 	if err := c.Bind(&req); err != nil {
 		return echo.NewHTTPError(http.StatusBadRequest, "Invalid request payload")
+	}
+
+	// validate phone number
+	if err := c.Validate(req); err != nil {
+		return err
 	}
 
 	err := usecase.UpdatePhoneNumber(userID, &req)
