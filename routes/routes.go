@@ -62,5 +62,10 @@ func New() *echo.Echo {
 	favoriteProducts.POST("", controllers.AddFavoriteProductController)
 	favoriteProducts.DELETE("/:id", controllers.DeleteFavoriteProductController)
 
+	//topup
+	tp := e.Group("topup", jwt.JWT([]byte(constants.SECRET_KEY)))
+	tp.POST("", controllers.CreateTopupController)
+	// tp.GET("", controllers.)
+
 	return e
 }
