@@ -2,6 +2,7 @@ package controllers
 
 import (
 	"backend-golang/middlewares"
+	"backend-golang/models/payload"
 	"backend-golang/usecase"
 	"net/http"
 	"strconv"
@@ -10,10 +11,11 @@ import (
 )
 
 func AddFavoriteProductController(c echo.Context) error {
-	product_id := c.QueryParam("product_id")
+	var req payload.AddFavoriteProduct
+	c.Bind(&req)
 	userID := middlewares.GetUserLoginId(c)
 
-	if err := usecase.AddFavoriteProduct(userID, product_id); err != nil {
+	if err := usecase.AddFavoriteProduct(userID, req.ProductID); err != nil {
 		return c.JSON(http.StatusBadRequest, echo.NewHTTPError(http.StatusBadRequest, err.Error()))
 	}
 

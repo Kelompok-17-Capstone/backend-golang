@@ -20,6 +20,11 @@ type ProductParam struct {
 	Tab     string
 }
 
+type OrdersParam struct {
+	Keyword string
+	Status  string
+}
+
 type UsersParam struct {
 	Keyword string
 	Role    string
@@ -36,14 +41,14 @@ type Profile struct {
 type CreateProduct struct {
 	Name        string `json:"name" form:"name"`
 	Description string `json:"description" form:"description"`
-	Stock       uint   `json:"stock" form:"stock"`
+	Stock       uint   `json:"stock" form:"stock" validate:"gt=0"`
 	Price       uint   `json:"price" form:"price"`
 }
 
 type UpdateProduct struct {
 	Name        string `json:"name" form:"name"`
 	Description string `json:"description" form:"description"`
-	Stock       uint   `json:"stock" form:"stock"`
+	Stock       uint   `json:"stock" form:"stock" validate:"gte=0"`
 	Price       uint   `json:"price" form:"price"`
 	Image       string `json:"image" form:"image"`
 }
@@ -74,8 +79,8 @@ type UpdateAddress struct {
 type AddToCart struct {
 	UserID    uint      `json:"user_id" form:"user_id"`
 	ProductID uuid.UUID `json:"product_id" form:"product_id"`
-	Quantity  uint      `json:"quantity" form:"quantity"`
+	Quantity  uint      `json:"quantity" form:"quantity" validate:"gt=0"`
 }
 type UpdateQtyCart struct {
-	Quantity uint `json:"quantity" form:"quantity"`
+	Quantity uint `json:"quantity" form:"quantity" validate:"gte=0"`
 }
