@@ -52,6 +52,9 @@ type UpdateEmail struct {
 	Email string `json:"email" form:"email" validate:"required,email"`
 }
 
+type UpdatePhoneNumber struct {
+	PhoneNumber string `json:"phone_number" form:"phone_number" validate:"min=11,max=13"`
+}
 type UpdatePassword struct {
 	OldPassword    string `json:"old_password" form:"old_password" validate:"required"`
 	NewPassword    string `json:"new_password" form:"new_password" validate:"require, min=8"`
