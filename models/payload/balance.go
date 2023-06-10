@@ -1,5 +1,5 @@
 package payload
 
 type BalanceRequest struct {
-	Total uint `json:"total" form:"total" svalidate:"required,min=11,max=13,gte=0"`
+	Total uint `json:"total" form:"total" validate:"required,gte=0"`
 }
