@@ -65,7 +65,7 @@ func UpdateNameController(c echo.Context) error {
 func UpdatePhoneNumberController(c echo.Context) error {
 	userID := middlewares.GetUserLoginId(c)
 
-	var req payload.Profile
+	var req payload.UpdatePhoneNumber
 	if err := c.Bind(&req); err != nil {
 		return echo.NewHTTPError(http.StatusBadRequest, "Invalid request payload")
 	}
