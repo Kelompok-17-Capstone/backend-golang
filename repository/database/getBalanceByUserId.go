@@ -12,9 +12,3 @@ func GetBalanceByUserID(userID uint) (*models.Balance, error) {
 	}
 	return resp, nil
 }
-func GetUserRole(userID uint) (resp *models.User, err error) {
-	if err := config.DB.Where("id = ?", userID).First(&resp).Error; err != nil {
-		return nil, err
-	}
-	return resp, nil
-}

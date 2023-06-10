@@ -5,8 +5,8 @@ import (
 	"backend-golang/models"
 )
 
-func UpdateUser(user *models.User, id uint) error {
-	if err := config.DB.Updates(&user).Error; err != nil {
+func UpdateUser(user *models.User) error {
+	if err := config.DB.Save(&user).Error; err != nil {
 		return err
 	}
 	return nil
