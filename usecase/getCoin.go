@@ -14,14 +14,14 @@ func GetCoin(userID uint) ([]payload.CoinResponse, error) {
 	var resp []payload.CoinResponse
 	for _, coin := range coins {
 		resp = append(resp, payload.CoinResponse{
-			Total:  coin.Total,
+			Total:  uint(coin.Total),
 			Status: coin.Status,
 		})
 
-		coin.Total = resp[len(resp)-1].Total
-		if err := database.UpdateCoinTotal(coin); err != nil {
-			return nil, err
-		}
+		// coin.Total = int(resp[len(resp)-1].Total)
+		// if err := database.UpdateCoinTotal(coin); err != nil {
+		// 	return nil, err
+		// }
 	}
 
 	return resp, nil
