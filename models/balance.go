@@ -5,6 +5,6 @@ import "gorm.io/gorm"
 type Balance struct {
 	gorm.Model
 	UserID uint   `json:"user_id" form:"user_id"`
-	Status string `json:"status" form:"status"`
-	Total  uint   `json:"total" form:"total"`
+	Total  int    `json:"total" form:"total"`
+	Status string `json:"status" form:"status" gorm:"type:enum('increase','decrease')"`
 }

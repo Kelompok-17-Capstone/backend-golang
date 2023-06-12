@@ -54,7 +54,7 @@ func UpdateName(id uint, req *payload.Profile) error {
 }
 
 // update phone number
-func UpdatePhoneNumber(id uint, req *payload.Profile) error {
+func UpdatePhoneNumber(id uint, req *payload.UpdatePhoneNumber) error {
 	if err := database.UpdatePhoneNumber(id, req.PhoneNumber); err != nil {
 		return err
 	}

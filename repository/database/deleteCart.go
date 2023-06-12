@@ -3,6 +3,8 @@ package database
 import (
 	"backend-golang/config"
 	"backend-golang/models"
+
+	uuid "github.com/satori/go.uuid"
 )
 
 func DeleteDetailCartItem(id uint) error {
@@ -17,4 +19,12 @@ func GetDetailCartItemById(id uint) (*models.DetailCartItem, error) {
 		return nil, err
 	}
 	return cart, nil
+}
+
+func DeleteCartByProductId(id uuid.UUID) error {
+	var cart models.DetailCartItem
+	if err := config.DB.Model(&cart).Where("product_id = ?", id).Delete(&cart).Error; err != nil {
+		return err
+	}
+	return nil
 }

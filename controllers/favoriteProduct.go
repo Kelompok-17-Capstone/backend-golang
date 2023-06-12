@@ -12,11 +12,11 @@ import (
 
 func AddFavoriteProductController(c echo.Context) error {
 	var req payload.AddFavoriteProduct
-	userID := middlewares.GetUserLoginId(c)
 	c.Bind(&req)
+	userID := middlewares.GetUserLoginId(c)
 
 	if err := usecase.AddFavoriteProduct(userID, req.ProductID); err != nil {
-		return c.JSON(http.StatusInternalServerError, echo.NewHTTPError(http.StatusBadRequest, err.Error()))
+		return c.JSON(http.StatusBadRequest, echo.NewHTTPError(http.StatusBadRequest, err.Error()))
 	}
 
 	return c.JSON(http.StatusCreated, map[string]interface{}{
@@ -29,7 +29,7 @@ func GetFavoriteProductController(c echo.Context) error {
 
 	favoriteProduct, err := usecase.GetFavoriteProduct(userID)
 	if err != nil {
-		return c.JSON(http.StatusInternalServerError, echo.NewHTTPError(http.StatusBadRequest, err.Error()))
+		return c.JSON(http.StatusBadRequest, echo.NewHTTPError(http.StatusBadRequest, err.Error()))
 	}
 
 	return c.JSON(http.StatusOK, map[string]interface{}{

@@ -17,14 +17,16 @@ func New() *echo.Echo {
 
 	e.Pre(middleware.RemoveTrailingSlash())
 
+	e.GET("/home", controllers.Home, jwt.JWT([]byte(constants.SECRET_KEY)))
 	e.POST("/register", controllers.RegisterController)
 	e.POST("/login", controllers.LoginController)
 	e.GET("/products", controllers.GetProductsMobileController)
+	e.POST("/orders", controllers.CreateOrderController, jwt.JWT([]byte(constants.SECRET_KEY)))
 
 	p := e.Group("profile", jwt.JWT([]byte(constants.SECRET_KEY)))
 	p.GET("", controllers.ViewMemberInformationController)
 	p.POST("", controllers.CreateUserProfileController)
-	p.POST("/photo", controllers.UpdateUserPhotoController)
+	p.POST("/address", controllers.CreateAddressController)
 	p.PUT("/email", controllers.UpdateUserEmailController)
 	p.PUT("/password", controllers.UpdatePasswordController)
 	p.PUT("/name", controllers.UpdateNameController)
@@ -45,6 +47,9 @@ func New() *echo.Echo {
 	users.GET("/:id", controllers.GetUserController)
 	users.PUT("/:id", controllers.UpdateUserController)
 	users.DELETE("/:id", controllers.DeleteUserController)
+
+	orders := e.Group("admin/orders", jwt.JWT([]byte(constants.SECRET_KEY)))
+	orders.GET("", controllers.GetOrdersController)
 
 	m := e.Group("member", jwt.JWT([]byte(constants.SECRET_KEY)))
 	m.POST("", controllers.RegisterAsMemberController)
