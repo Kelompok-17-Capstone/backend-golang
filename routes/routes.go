@@ -72,5 +72,11 @@ func New() *echo.Echo {
 	tp.POST("", controllers.CreateTopupController)
 	// tp.GET("", controllers.)
 
+	coin := e.Group("coin", jwt.JWT([]byte(constants.SECRET_KEY)))
+	coin.GET("", controllers.GetCoinController)
+
+	balance := e.Group("balance", jwt.JWT([]byte(constants.SECRET_KEY)))
+	balance.GET("", controllers.GetBalanceController)
+
 	return e
 }
