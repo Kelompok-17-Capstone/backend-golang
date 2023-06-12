@@ -47,6 +47,13 @@ func UpdateUserAddress(req *models.Address, id uint) error {
 	return nil
 }
 
+func UpdateAddressStatus(profileId uint, addressId uint, status string) error {
+	if err := config.DB.Model(&models.Address{}).Where("profile_id = ?", profileId).Not("id = ?", addressId).Update("status", status).Error; err != nil {
+		return err
+	}
+	return nil
+}
+
 func UpdateUserStatus(id uint, status string) error {
 	var user models.User
 	if err := config.DB.Model(&user).Where("id = ?", id).Update("status", status).Error; err != nil {

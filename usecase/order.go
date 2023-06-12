@@ -48,7 +48,7 @@ func CreateOrder(userId uint, req *payload.CreateOrder) error {
 		Total:  int(grandTotalPrice),
 		Status: "decrease",
 	}); err != nil {
-		return nil
+		return err
 	}
 
 	if err := database.CreateCoin(&models.Coin{
@@ -56,7 +56,7 @@ func CreateOrder(userId uint, req *payload.CreateOrder) error {
 		Total:  coin,
 		Status: "decrease",
 	}); err != nil {
-		return nil
+		return err
 	}
 
 	if err := database.UpdateUser(&user); err != nil {

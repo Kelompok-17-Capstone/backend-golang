@@ -22,6 +22,7 @@ func CreateUserProfil(id uint, req *payload.Profile) error {
 		Address:   req.Address,
 		City:      req.City,
 		Province:  req.Province,
+		Status:    "primer",
 	}
 	if err := database.CreateUserAddress(&address); err != nil {
 		return err

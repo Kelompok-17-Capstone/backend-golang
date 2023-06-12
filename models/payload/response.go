@@ -31,13 +31,18 @@ type GetMember struct {
 	MemberCode  string `json:"member_code" form:"member_code"`
 }
 type GetMemberMobile struct {
-	ID          uint     `json:"id" form:"id"`
-	Name        string   `json:"name" form:"name"`
-	Email       string   `json:"email" form:"email"`
-	PhoneNumber string   `json:"phone_number" form:"phone_number"`
-	Address     []string `json:"address" form:"address"`
-	Image       string   `json:"image" form:"image"`
-	MemberCode  string   `json:"member_code" form:"member_code"`
+	ID          uint      `json:"id" form:"id"`
+	Name        string    `json:"name" form:"name"`
+	Email       string    `json:"email" form:"email"`
+	PhoneNumber string    `json:"phone_number" form:"phone_number"`
+	Address     []Address `json:"address" form:"address"`
+	Image       string    `json:"image" form:"image"`
+	MemberCode  string    `json:"member_code" form:"member_code"`
+}
+
+type Address struct {
+	ID      uint   `json:"id" form:"id"`
+	Address string `json:"address" form:"address"`
 }
 type GetCart struct {
 	ID     uint `json:"id" form:"id"`
