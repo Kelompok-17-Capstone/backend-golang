@@ -84,3 +84,20 @@ func GetProductsMobile(keyword, tab, price string) (resp []payload.ProductMobile
 	}
 	return
 }
+
+func GetProductMobileByid(id uuid.UUID) (resp payload.ProductMobileResponse, err error) {
+	product, err := database.GetProductById(id)
+	if err != nil {
+		return
+	}
+	resp = payload.ProductMobileResponse{
+		ID:          product.ID,
+		Name:        product.Name,
+		Description: product.Description,
+		Stock:       product.Stock,
+		Price:       product.Price,
+		Image:       product.Image,
+		Favorit:     int(product.Favorite),
+	}
+	return
+}

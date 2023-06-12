@@ -55,3 +55,16 @@ func GetProductsMobileController(c echo.Context) error {
 		"products": products,
 	})
 }
+
+func GetProductMobileByIdController(c echo.Context) error {
+	id := c.Param("id")
+	product, err := usecase.GetProductMobileByid(uuid.FromStringOrNil(id))
+	if err != nil {
+		return echo.NewHTTPError(http.StatusBadRequest, err.Error())
+	}
+	return c.JSON(http.StatusOK, map[string]interface{}{
+		"message": "success get products by id",
+		"data":    product,
+	})
+
+}
