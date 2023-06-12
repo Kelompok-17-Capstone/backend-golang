@@ -62,12 +62,17 @@ func UpdatePhoneNumber(id uint, req *payload.UpdatePhoneNumber) error {
 }
 
 // update address
-func UpdateAddress(id uint, req *payload.UpdateAddress) error {
+func UpdateAddress(id uint, addresId uint, req *payload.UpdateAddress) error {
 	profile, err := database.GetProfile(id)
 	if err != nil {
 		return err
 	}
-	if err := database.UpdateAddress(profile.ID, req); err != nil {
+	if req.Status == "primer" {
+		if err := database.UpdateAddressStatus(profile.ID, addresId, "skunder"); err != nil {
+			return err
+		}
+	}
+	if err := database.UpdateAddress(profile.ID, addresId, req); err != nil {
 		return err
 	}
 	return nil

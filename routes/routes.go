@@ -20,8 +20,9 @@ func New() *echo.Echo {
 	e.GET("/home", controllers.Home, jwt.JWT([]byte(constants.SECRET_KEY)))
 	e.POST("/register", controllers.RegisterController)
 	e.POST("/login", controllers.LoginController)
-	e.GET("/products", controllers.GetProductsMobileController)
 	e.POST("/orders", controllers.CreateOrderController, jwt.JWT([]byte(constants.SECRET_KEY)))
+	e.GET("/products", controllers.GetProductsMobileController)
+	e.GET("/products/:id", controllers.GetProductMobileByIdController)
 
 	p := e.Group("profile", jwt.JWT([]byte(constants.SECRET_KEY)))
 	p.GET("", controllers.ViewMemberInformationController)
@@ -31,7 +32,7 @@ func New() *echo.Echo {
 	p.PUT("/password", controllers.UpdatePasswordController)
 	p.PUT("/name", controllers.UpdateNameController)
 	p.PUT("/phone-number", controllers.UpdatePhoneNumberController)
-	p.PUT("/address", controllers.UpdateAddressController)
+	p.PUT("/address/:id", controllers.UpdateAddressController)
 	p.PUT("", controllers.RegisterAsMemberController)
 	p.PUT("/photo", controllers.UpdateUserPhotoController)
 
@@ -39,8 +40,8 @@ func New() *echo.Echo {
 	products.GET("", controllers.GetProductsController)
 	products.POST("", controllers.CreateProductController)
 	products.GET("/:id", controllers.GetProductByIDController)
-	products.DELETE("/:id", controllers.DeleteProductController)
 	products.PUT("/:id", controllers.UpdateProductController)
+	products.DELETE("/:id", controllers.DeleteProductController)
 
 	users := e.Group("admin/users", jwt.JWT([]byte(constants.SECRET_KEY)))
 	users.GET("", controllers.GetUsersController)
