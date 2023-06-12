@@ -20,5 +20,8 @@ func GetCoinController(c echo.Context) error {
 		return echo.NewHTTPError(http.StatusInternalServerError, "Failed to get coin")
 	}
 
-	return c.JSON(http.StatusOK, resp)
+	return c.JSON(http.StatusOK, map[string]interface{}{
+		"message": "Get coin history success",
+		"history": resp,
+	})
 }
