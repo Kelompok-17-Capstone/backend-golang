@@ -30,6 +30,7 @@ func ViewMemberInformation(id uint) (payload.GetMemberMobile, error) {
 		address = append(address, payload.Address{
 			ID:      value.ID,
 			Address: value.Address + ", " + value.City + ", " + value.Province,
+			Status:  value.Status,
 		})
 	}
 
@@ -41,6 +42,8 @@ func ViewMemberInformation(id uint) (payload.GetMemberMobile, error) {
 		Address:     address,
 		Image:       user.Profile.Photo,
 		MemberCode:  memberCode,
+		Balance:     user.Balance,
+		Coin:        user.Coin,
 	}
 	return resp, nil
 }

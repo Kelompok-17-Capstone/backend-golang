@@ -10,5 +10,5 @@ type Address struct {
 	Address   string `json:"address" form:"address"`
 	Province  string `json:"province" form:"province"`
 	City      string `json:"city" form:"city"`
-	Status    string `json:"status" form:"status" gorm:"type:enum('primer','skunder')"`
+	Status    bool   `json:"status" form:"status"`
 }

@@ -38,11 +38,14 @@ type GetMemberMobile struct {
 	Address     []Address `json:"address" form:"address"`
 	Image       string    `json:"image" form:"image"`
 	MemberCode  string    `json:"member_code" form:"member_code"`
+	Balance     int       `json:"balance" form:"balance"`
+	Coin        int       `json:"coin" form:"coin"`
 }
 
 type Address struct {
 	ID      uint   `json:"id" form:"id"`
 	Address string `json:"address" form:"address"`
+	Status  bool   `json:"status" form:"status"`
 }
 type GetCart struct {
 	ID     uint `json:"id" form:"id"`

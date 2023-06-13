@@ -52,7 +52,14 @@ func UpdateAddress(id uint, addresId uint, req *payload.UpdateAddress) error {
 	return nil
 }
 
-func UpdateAddressWhereStatus(profilId uint, req *models.Address, status string) error {
+func SaveAddres(req *models.Address) error {
+	if err := config.DB.Save(&req).Error; err != nil {
+		return err
+	}
+	return nil
+}
+
+func UpdateAddressWhereStatus(profilId uint, req *models.Address, status bool) error {
 	if err := config.DB.Model(&models.Address{}).Where("profile_id = ? and status = ? ", profilId, status).Updates(models.Address{
 		Address:  req.Address,
 		City:     req.City,
@@ -61,6 +68,13 @@ func UpdateAddressWhereStatus(profilId uint, req *models.Address, status string)
 		return err
 	}
 	return nil
+}
+
+func GetAddressById(id uint) (resp models.Address, err error) {
+	if err = config.DB.First(&resp, id).Error; err != nil {
+		return
+	}
+	return
 }
 
 // get profile by id

@@ -16,6 +16,7 @@ func New() *echo.Echo {
 	m.LoggerMiddleware(e)
 
 	e.Pre(middleware.RemoveTrailingSlash())
+	e.Use(middleware.CORS())
 
 	e.GET("/home", controllers.Home, jwt.JWT([]byte(constants.SECRET_KEY)))
 	e.POST("/register", controllers.RegisterController)
@@ -33,6 +34,7 @@ func New() *echo.Echo {
 	p.PUT("/name", controllers.UpdateNameController)
 	p.PUT("/phone-number", controllers.UpdatePhoneNumberController)
 	p.PUT("/address/:id", controllers.UpdateAddressController)
+	p.DELETE("/address/:id", controllers.DeleteAddressController)
 	p.PUT("", controllers.RegisterAsMemberController)
 	p.PUT("/photo", controllers.UpdateUserPhotoController)
 

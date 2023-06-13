@@ -33,6 +33,10 @@ func UpdateUserProfil(req *models.Profile, id uint) error {
 	return nil
 }
 
+// func GetAdress(profilId uint) error {
+// 	if err := DB.Where("profil_id = ?",profilId).First(&req,id).Error
+// }
+
 func CreateUserAddress(req *models.Address) error {
 	if err := config.DB.Save(&req).Error; err != nil {
 		return err
@@ -47,7 +51,7 @@ func UpdateUserAddress(req *models.Address, id uint) error {
 	return nil
 }
 
-func UpdateAddressStatus(profileId uint, addressId uint, status string) error {
+func UpdateAddressStatus(profileId uint, addressId uint, status bool) error {
 	if err := config.DB.Model(&models.Address{}).Where("profile_id = ?", profileId).Not("id = ?", addressId).Update("status", status).Error; err != nil {
 		return err
 	}
@@ -65,6 +69,13 @@ func UpdateUserStatus(id uint, status string) error {
 func UploadPhotoProfil(id uint, photo string) error {
 	var profile *models.Profile
 	if err := config.DB.Model(&profile).Where("user_id = ?", id).Update("photo", photo).Error; err != nil {
+		return err
+	}
+	return nil
+}
+
+func DeleteAddress(id uint) error {
+	if err := config.DB.Delete(&models.Address{}, id).Error; err != nil {
 		return err
 	}
 	return nil
