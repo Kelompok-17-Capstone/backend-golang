@@ -25,10 +25,14 @@ func ViewMemberInformation(id uint) (payload.GetMemberMobile, error) {
 	if err != nil {
 		return payload.GetMemberMobile{}, err
 	}
-	var address []string
+	var address []payload.Address
 	for _, value := range user.Profile.Address {
-		address = append(address, value.Address+", "+value.City+", "+value.Province)
+		address = append(address, payload.Address{
+			ID:      value.ID,
+			Address: value.Address + ", " + value.City + ", " + value.Province,
+		})
 	}
+
 	resp := payload.GetMemberMobile{
 		ID:          user.ID,
 		Name:        username,

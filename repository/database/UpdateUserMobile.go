@@ -40,8 +40,20 @@ func UpdatePhoneNumber(id uint, phoneNumber string) error {
 }
 
 // update address
-func UpdateAddress(id uint, req *payload.UpdateAddress) error {
-	if err := config.DB.Model(&models.Address{}).Where("profile_id = ?", id).Updates(models.Address{
+func UpdateAddress(id uint, addresId uint, req *payload.UpdateAddress) error {
+	if err := config.DB.Model(&models.Address{}).Where("profile_id = ? and id = ? ", id, addresId).Updates(models.Address{
+		Address:  req.Address,
+		City:     req.City,
+		Province: req.Province,
+		Status:   req.Status,
+	}).Error; err != nil {
+		return err
+	}
+	return nil
+}
+
+func UpdateAddressWhereStatus(profilId uint, req *models.Address, status string) error {
+	if err := config.DB.Model(&models.Address{}).Where("profile_id = ? and status = ? ", profilId, status).Updates(models.Address{
 		Address:  req.Address,
 		City:     req.City,
 		Province: req.Province,

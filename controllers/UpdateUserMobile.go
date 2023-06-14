@@ -5,6 +5,7 @@ import (
 	"backend-golang/models/payload"
 	"backend-golang/usecase"
 	"net/http"
+	"strconv"
 
 	"github.com/labstack/echo/v4"
 )
@@ -32,6 +33,10 @@ func UpdatePasswordController(c echo.Context) error {
 	var req payload.UpdatePassword
 	if err := c.Bind(&req); err != nil {
 		return echo.NewHTTPError(http.StatusBadRequest, "Invalid request payload")
+	}
+
+	if err := c.Validate(req); err != nil {
+		return err
 	}
 
 	user, err := usecase.UpdatePassword(userID, &req)
@@ -65,9 +70,14 @@ func UpdateNameController(c echo.Context) error {
 func UpdatePhoneNumberController(c echo.Context) error {
 	userID := middlewares.GetUserLoginId(c)
 
-	var req payload.Profile
+	var req payload.UpdatePhoneNumber
 	if err := c.Bind(&req); err != nil {
 		return echo.NewHTTPError(http.StatusBadRequest, "Invalid request payload")
+	}
+
+	// validate phone number
+	if err := c.Validate(req); err != nil {
+		return err
 	}
 
 	err := usecase.UpdatePhoneNumber(userID, &req)
@@ -83,17 +93,15 @@ func UpdatePhoneNumberController(c echo.Context) error {
 // update address
 func UpdateAddressController(c echo.Context) error {
 	userID := middlewares.GetUserLoginId(c)
-
+	addresId, _ := strconv.Atoi(c.Param("id"))
 	var req payload.UpdateAddress
 	if err := c.Bind(&req); err != nil {
 		return echo.NewHTTPError(http.StatusBadRequest, "Invalid request payload")
 	}
-
-	err := usecase.UpdateAddress(userID, &req)
+	err := usecase.UpdateAddress(userID, uint(addresId), &req)
 	if err != nil {
 		return echo.NewHTTPError(http.StatusInternalServerError, err.Error())
 	}
-
 	return c.JSON(http.StatusOK, map[string]interface{}{
 		"message": "Address updated successfully",
 	})

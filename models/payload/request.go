@@ -20,6 +20,11 @@ type ProductParam struct {
 	Tab     string
 }
 
+type OrdersParam struct {
+	Keyword string
+	Status  string
+}
+
 type UsersParam struct {
 	Keyword string
 	Role    string
@@ -36,20 +41,20 @@ type Profile struct {
 type CreateProduct struct {
 	Name        string `json:"name" form:"name"`
 	Description string `json:"description" form:"description"`
-	Stock       uint   `json:"stock" form:"stock"`
+	Stock       uint   `json:"stock" form:"stock" validate:"gt=0"`
 	Price       uint   `json:"price" form:"price"`
 }
 
 type UpdateProduct struct {
 	Name        string `json:"name" form:"name"`
 	Description string `json:"description" form:"description"`
-	Stock       uint   `json:"stock" form:"stock"`
+	Stock       uint   `json:"stock" form:"stock" validate:"gte=0"`
 	Price       uint   `json:"price" form:"price"`
 	Image       string `json:"image" form:"image"`
 }
 
 type UpdateEmail struct {
-	Email string `json:"email" form:"email" validate:"required,email"`
+	Email string `json:"email" form:"email" validate:"email"`
 }
 
 type UpdatePhoneNumber struct {
@@ -57,7 +62,7 @@ type UpdatePhoneNumber struct {
 }
 type UpdatePassword struct {
 	OldPassword    string `json:"old_password" form:"old_password" validate:"required"`
-	NewPassword    string `json:"new_password" form:"new_password" validate:"require, min=8"`
+	NewPassword    string `json:"new_password" form:"new_password" validate:"required,min=8"`
 	RetypePassword string `json:"retype_password" form:"retype_password" validate:"required"`
 }
 
@@ -69,13 +74,14 @@ type UpdateAddress struct {
 	Address  string `json:"address" form:"address"`
 	Province string `json:"province" form:"province"`
 	City     string `json:"city" form:"city"`
+	Status   string `json:"status" form:"status"`
 }
 
 type AddToCart struct {
 	UserID    uint      `json:"user_id" form:"user_id"`
 	ProductID uuid.UUID `json:"product_id" form:"product_id"`
-	Quantity  uint      `json:"quantity" form:"quantity"`
+	Quantity  uint      `json:"quantity" form:"quantity" validate:"gt=0"`
 }
 type UpdateQtyCart struct {
-	Quantity uint `json:"quantity" form:"quantity"`
+	Quantity uint `json:"quantity" form:"quantity" validate:"gte=0"`
 }

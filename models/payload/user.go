@@ -10,10 +10,10 @@ type GetUser struct {
 }
 
 type UpdateUser struct {
-	Name        string `json:"name" form:"name" validate:"required"`
-	PhoneNumber string `json:"phone_number" form:"phone_number" validate:"required,min=11,max=13"`
-	City        string `json:"city" form:"city" validate:"required"`
-	Province    string `json:"province" form:"province" validate:"required"`
-	Address     string `json:"address" form:"address" validate:"required"`
-	Status      string `json:"status" form:"status" validate:"required"`
+	Name        string `json:"name" form:"name"`
+	PhoneNumber string `json:"phone_number" form:"phone_number" validate:"min=11,max=13"`
+	City        string `json:"city" form:"city"`
+	Province    string `json:"province" form:"province"`
+	Address     string `json:"address" form:"address"`
+	Status      string `json:"status" form:"status"`
 }

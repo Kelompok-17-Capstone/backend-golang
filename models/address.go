@@ -6,8 +6,9 @@ import (
 
 type Address struct {
 	gorm.Model
-	ProfileID uint   `json:"profile_id" form:"profile_id" gorm:"unique"`
+	ProfileID uint   `json:"profile_id" form:"profile_id"`
 	Address   string `json:"address" form:"address"`
 	Province  string `json:"province" form:"province"`
 	City      string `json:"city" form:"city"`
+	Status    string `json:"status" form:"status" gorm:"type:enum('primer','skunder')"`
 }
