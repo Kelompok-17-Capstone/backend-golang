@@ -1,6 +1,8 @@
 package payload
 
-import uuid "github.com/satori/go.uuid"
+import (
+	uuid "github.com/satori/go.uuid"
+)
 
 type ProductResponse struct {
 	ID          uuid.UUID `json:"id" form:"id"`
@@ -45,17 +47,22 @@ type Address struct {
 	Address string `json:"address" form:"address"`
 }
 type GetCart struct {
-	ID     uint `json:"id" form:"id"`
-	UserID uint `json:"user_id" form:"user_id"`
-	// ProductID      uuid.UUID        `json:"product_id" form:"product_id"`
-	// Quantity       uint             `json:"quatity" form:"quantity"`
+	ID             uint             `json:"id" form:"id"`
+	UserID         uint             `json:"user_id" form:"user_id"`
 	DetailCartItem []DetailCartItem `json:"detail_cart_item"`
 }
+type ProductEmbed struct {
+	ProductID uuid.UUID `json:"product_id" form:"product_id"`
+	Name      string    `json:"name" form:"name"`
+	Price     uint      `json:"price" form:"price"`
+	Image     string    `json:"image" form:"image"`
+}
 type DetailCartItem struct {
-	ID         uint      `json:"id" form:"id"`
-	CartItemID uint      `json:"cart_item_id"`
-	ProductID  uuid.UUID `json:"product_id"`
-	Quantity   uint      `json:"quantity"`
+	ID         uint `json:"id" form:"id"`
+	CartItemID uint `json:"cart_item_id"`
+	// ProductID  uuid.UUID      `json:"product_id"`
+	Quantity uint         `json:"quantity" validate:"gt=0"`
+	Products ProductEmbed `json:"product"`
 }
 type GetFavoriteProduct struct {
 	ID          uint      `json:"id" form:"id"`
