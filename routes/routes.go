@@ -79,5 +79,9 @@ func New() *echo.Echo {
 	balance := e.Group("balance", jwt.JWT([]byte(constants.SECRET_KEY)))
 	balance.GET("", controllers.GetBalanceController)
 
+	//get order mobile
+	orderMobile := e.Group("order", jwt.JWT([]byte(constants.SECRET_KEY)))
+	orderMobile.GET("", controllers.GetOrderMobileController)
+
 	return e
 }

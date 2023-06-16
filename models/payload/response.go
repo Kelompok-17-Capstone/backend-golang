@@ -52,7 +52,7 @@ type GetCart struct {
 	DetailCartItem []DetailCartItem `json:"detail_cart_item"`
 }
 type ProductEmbed struct {
-	ProductID uuid.UUID `json:"product_id" form:"product_id"`
+	ProductID uuid.UUID `json:"id" form:"product_id"`
 	Name      string    `json:"name" form:"name"`
 	Price     uint      `json:"price" form:"price"`
 	Image     string    `json:"image" form:"image"`
