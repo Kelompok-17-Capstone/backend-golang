@@ -59,8 +59,9 @@ func New() *echo.Echo {
 
 	orders := e.Group("admin/orders", jwt.JWT([]byte(constants.SECRET_KEY)))
 	orders.GET("", controllers.GetOrdersController)
-	orders.PUT("/status/:id", controllers.UpdateStatusController)
-	orders.PUT("/arrived-at/:id", controllers.UpdateArrivedAt)
+	orders.GET("/:id", controllers.GetOrderController)
+	orders.PUT("/:id", controllers.UpdateOrderController)
+	orders.DELETE("/:id", controllers.DeleteOrderController)
 
 	//cart
 	cart := e.Group("/cart", jwt.JWT([]byte(constants.SECRET_KEY)))
