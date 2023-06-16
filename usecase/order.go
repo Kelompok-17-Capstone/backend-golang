@@ -123,10 +123,14 @@ func GetOrders(req *payload.OrdersParam) (resp []payload.GetOrders, err error) {
 	}
 	for _, value := range orders {
 		var qty int
-		var product []string
-		for _, val := range value.OrderDetails {
+		var product string
+		for key, val := range value.OrderDetails {
 			qty += val.Quantity
-			product = append(product, val.Product.Name)
+			if key < len(value.OrderDetails)-1 {
+				product += val.Product.Name + ", "
+			} else {
+				product += val.Product.Name
+			}
 
 		}
 		resp = append(resp, payload.GetOrders{

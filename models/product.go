@@ -18,10 +18,10 @@ type Product struct {
 	Status      string `json:"status" form:"status" gorm:"type:enum('Tersedia','Tidak Tersedia');default:'Tersedia'"`
 }
 type Base struct {
-	ID        uuid.UUID  `gorm:"type:char(36);primary_key"`
-	CreatedAt time.Time  `json:"created_at"`
-	UpdatedAt time.Time  `json:"updated_at"`
-	DeletedAt *time.Time `sql:"index" json:"deleted_at"`
+	ID        uuid.UUID      `gorm:"type:char(36);primary_key"`
+	CreatedAt time.Time      `json:"created_at"`
+	UpdatedAt time.Time      `json:"updated_at"`
+	DeletedAt gorm.DeletedAt `sql:"index" json:"deleted_at"`
 }
 
 func (base *Base) BeforeCreate(tx *gorm.DB) error {

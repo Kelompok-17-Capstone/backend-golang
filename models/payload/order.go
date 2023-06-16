@@ -21,7 +21,7 @@ type GetOrders struct {
 	ID            uuid.UUID      `json:"id" form:"id"`
 	Name          string         `json:"name" form:"name"`
 	Address       string         `json:"address" form:"address"`
-	Products      []string       `json:"product" form:"product"`
+	Products      string         `json:"product" form:"product"`
 	TotalQuantity int            `json:"total_quantity" form:"total_quantity"`
 	TotalPrice    int            `json:"total_price" form:"total_price"`
 	OrderAt       datatypes.Date `json:"order_at" form:"order_at"`

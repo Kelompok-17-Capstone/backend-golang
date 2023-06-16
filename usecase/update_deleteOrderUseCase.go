@@ -6,11 +6,15 @@ import (
 	"time"
 
 	uuid "github.com/satori/go.uuid"
+	"gorm.io/datatypes"
 )
 
 // delete order by id
 func DeleteOrder(id uuid.UUID) error {
 	if err := database.DeleteOrder(id); err != nil {
+		return err
+	}
+	if err := database.DeleteOrderDetailByOrderID(id); err != nil {
 		return err
 	}
 	return nil
@@ -37,10 +41,14 @@ func GetOrderByID(id uuid.UUID) (*payload.GetOrders, error) {
 	}
 
 	var qty int
-	var product []string
-	for _, val := range order.OrderDetails {
+	var product string
+	for key, val := range order.OrderDetails {
 		qty += val.Quantity
-		product = append(product, val.Product.Name)
+		if key < len(order.OrderDetails)-1 {
+			product += val.Product.Name + ", "
+		} else {
+			product += val.Product.Name
+		}
 
 	}
 
@@ -49,7 +57,8 @@ func GetOrderByID(id uuid.UUID) (*payload.GetOrders, error) {
 		Address:       order.Address,
 		TotalQuantity: qty,
 		TotalPrice:    order.GrandTotalPrice,
-		OrderAt:       order.OrderAt,
+		Products:      product,
+		OrderAt:       datatypes.Date(order.CreatedAt),
 		ArrivedAt:     order.ArrivedAt,
 		Status:        order.Status,
 	}
