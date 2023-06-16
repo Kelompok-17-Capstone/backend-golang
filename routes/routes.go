@@ -88,6 +88,9 @@ func New() *echo.Echo {
 
 	dashboard := e.Group("admin/dashboard", jwt.JWT([]byte(constants.SECRET_KEY)))
 	dashboard.GET("", controllers.GetDashboardController)
+	//get order mobile
+	orderMobile := e.Group("order", jwt.JWT([]byte(constants.SECRET_KEY)))
+	orderMobile.GET("", controllers.GetOrderMobileController)
 
 	return e
 }
