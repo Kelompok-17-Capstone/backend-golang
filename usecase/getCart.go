@@ -19,12 +19,15 @@ func GetCart(id uint) (resp payload.GetCart, err error) {
 		item := payload.DetailCartItem{
 			ID:         detail.ID,
 			CartItemID: detail.CartItemID,
-			ProductID:  detail.ProductID,
-			Quantity:   detail.Quantity,
+			Products: payload.ProductEmbed{
+				ProductID: detail.ProductID,
+				Name:      detail.Products.Name,
+				Price:     detail.Products.Price,
+				Image:     detail.Products.Image,
+			},
+			Quantity: detail.Quantity,
 		}
 		resp.DetailCartItem = append(resp.DetailCartItem, item)
 	}
-
 	return
-
 }
