@@ -9,8 +9,9 @@ import (
 )
 
 // delete order by id
-func DeleteOrder(order *models.Order) error {
-	if err := config.DB.Delete(&order).Error; err != nil {
+func DeleteOrder(id uuid.UUID) error {
+	var order models.Order
+	if err := config.DB.Model(&order).Where("id = ?", id).Delete(&order).Error; err != nil {
 		return err
 	}
 	return nil

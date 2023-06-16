@@ -18,7 +18,7 @@ type Order struct {
 	Status          string         `json:"status" form:"status"`
 	OrderAt         datatypes.Date `json:"order_at" form:"order_at" gorm:"default:null"`
 	ArrivedAt       datatypes.Date `json:"arrived_at" form:"arrived_at"  gorm:"default:null"`
-	OrderDetails    []OrderDetail  `gorm:"foreignKey:OrderID"`
+	OrderDetails    []OrderDetail  `gorm:"foreignKey:OrderID;constraint:OnDelete:CASCADE"`
 }
 
 type OrderDetail struct {
@@ -29,8 +29,7 @@ type OrderDetail struct {
 	Product   Product   `gorm:"foreignKey:ProductID"`
 }
 
-// func (o *Order) AfterDelete(tx *gorm.DB) (err error) {
-// 	tx.Where("order_id = ?", o.ID).Delete(&OrderDetail{})
-// 	fmt.Println(o.ID)
-// 	return
-// }
+func (o *Order) AfterDelete(tx *gorm.DB) (err error) {
+	tx.Where("order_id = ?", o.ID).Delete(&OrderDetail{})
+	return
+}

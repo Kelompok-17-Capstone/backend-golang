@@ -10,16 +10,7 @@ import (
 
 // delete order by id
 func DeleteOrder(id uuid.UUID) error {
-	order, err := database.GetOrderByID(id)
-	if err != nil {
-		return err
-	}
-
-	if err := database.DeleteOrderDetailByOrderID(order.ID); err != nil {
-		return err
-	}
-
-	if err := database.DeleteOrder(order); err != nil {
+	if err := database.DeleteOrder(id); err != nil {
 		return err
 	}
 	return nil
