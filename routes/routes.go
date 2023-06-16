@@ -85,5 +85,8 @@ func New() *echo.Echo {
 	balance := e.Group("balance", jwt.JWT([]byte(constants.SECRET_KEY)))
 	balance.GET("", controllers.GetBalanceController)
 
+	dashboard := e.Group("admin/dashboard", jwt.JWT([]byte(constants.SECRET_KEY)))
+	dashboard.GET("", controllers.GetDashboardController)
+
 	return e
 }

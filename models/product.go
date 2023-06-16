@@ -15,6 +15,7 @@ type Product struct {
 	Price       uint   `json:"price" form:"price"`
 	Image       string `json:"image" form:"image"`
 	Favorite    uint   `json:"favorite" form:"favorite"`
+	Status      string `json:"status" form:"status" gorm:"type:enum('Tersedia','Tidak Tersedia');default:'Tersedia'"`
 }
 type Base struct {
 	ID        uuid.UUID  `gorm:"type:char(36);primary_key"`
