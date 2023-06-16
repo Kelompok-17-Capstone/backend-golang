@@ -14,8 +14,9 @@ func GetCoin(userID uint) ([]payload.CoinResponse, error) {
 	var resp []payload.CoinResponse
 	for _, coin := range coins {
 		resp = append(resp, payload.CoinResponse{
-			Total:  uint(coin.Total),
-			Status: coin.Status,
+			Total:     uint(coin.Total),
+			Status:    coin.Status,
+			CreatedAt: coin.CreatedAt,
 		})
 
 		// coin.Total = int(resp[len(resp)-1].Total)
