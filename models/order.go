@@ -28,3 +28,9 @@ type OrderDetail struct {
 	Quantity  int       `json:"quantity" form:"quantity"`
 	Product   Product   `gorm:"foreignKey:ProductID"`
 }
+
+// func (o *Order) AfterDelete(tx *gorm.DB) (err error) {
+// 	tx.Where("order_id = ?", o.ID).Delete(&OrderDetail{})
+// 	fmt.Println(o.ID)
+// 	return
+// }
