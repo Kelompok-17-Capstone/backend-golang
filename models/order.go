@@ -15,8 +15,7 @@ type Order struct {
 	Discount        int            `json:"discount" form:"discount" gorm:"default:0"`
 	CoinsUsed       int            `json:"coins_used" form:"coins_used"`
 	GrandTotalPrice int            `json:"grand_total_price" form:"grand_total_price"`
-	Status          string         `json:"status" form:"status"`
-	OrderAt         datatypes.Date `json:"order_at" form:"order_at" gorm:"default:null"`
+	Status          string         `json:"status" form:"status" gorm:"enum('dikemas','dikirim','diterima')"`
 	ArrivedAt       datatypes.Date `json:"arrived_at" form:"arrived_at"  gorm:"default:null"`
 	OrderDetails    []OrderDetail  `gorm:"foreignKey:OrderID"`
 }

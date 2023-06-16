@@ -39,12 +39,14 @@ func UpdatePasswordController(c echo.Context) error {
 		return err
 	}
 
-	user, err := usecase.UpdatePassword(userID, &req)
+	_, err := usecase.UpdatePassword(userID, &req)
 	if err != nil {
 		return echo.NewHTTPError(http.StatusBadRequest, err.Error())
 	}
 
-	return c.JSON(http.StatusOK, user)
+	return c.JSON(http.StatusOK, map[string]interface{}{
+		"message": "success update password",
+	})
 }
 
 // update name user

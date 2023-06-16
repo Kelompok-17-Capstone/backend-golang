@@ -25,6 +25,12 @@ func New() *echo.Echo {
 	e.GET("/products", controllers.GetProductsMobileController)
 	e.GET("/products/:id", controllers.GetProductMobileByIdController)
 
+	n := e.Group("notifications", jwt.JWT([]byte(constants.SECRET_KEY)))
+	n.GET("", controllers.GetNotifications)
+	n.GET("/:id", controllers.GetNotificationById)
+	n.PUT("/status/:id", controllers.UpdateNotificationStatus)
+	n.DELETE("/:id", controllers.DeleteNotification)
+
 	p := e.Group("profile", jwt.JWT([]byte(constants.SECRET_KEY)))
 	p.GET("", controllers.ViewMemberInformationController)
 	p.POST("", controllers.CreateUserProfileController)
@@ -53,10 +59,6 @@ func New() *echo.Echo {
 
 	orders := e.Group("admin/orders", jwt.JWT([]byte(constants.SECRET_KEY)))
 	orders.GET("", controllers.GetOrdersController)
-
-	m := e.Group("member", jwt.JWT([]byte(constants.SECRET_KEY)))
-	m.POST("", controllers.RegisterAsMemberController)
-	m.GET("", controllers.ViewMemberInformationController)
 
 	//cart
 	cart := e.Group("/cart", jwt.JWT([]byte(constants.SECRET_KEY)))

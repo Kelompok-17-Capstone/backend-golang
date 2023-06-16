@@ -8,6 +8,7 @@ import (
 
 	"github.com/dariubs/percent"
 	"github.com/labstack/echo/v4"
+	"gorm.io/datatypes"
 )
 
 func CreateOrder(userId uint, req *payload.CreateOrder) error {
@@ -102,6 +103,13 @@ func CreateOrder(userId uint, req *payload.CreateOrder) error {
 		}
 	}
 
+	if err := database.SaveNotification(models.Notification{
+		UserID: userId,
+		Text:   "Pesanan anda telah berhasil dilakukan dan akan segera dikemas dengan id pesanan yaitu " + orderId.String(),
+	}); err != nil {
+		return err
+	}
+
 	return nil
 }
 
@@ -124,7 +132,7 @@ func GetOrders(req *payload.OrdersParam) (resp []payload.GetOrders, err error) {
 			Status:        value.Status,
 			TotalQuantity: qty,
 			TotalPrice:    value.GrandTotalPrice,
-			OrderAt:       value.OrderAt,
+			OrderAt:       datatypes.Date(value.CreatedAt),
 			ArrivedAt:     value.ArrivedAt,
 			Products:      product,
 		})

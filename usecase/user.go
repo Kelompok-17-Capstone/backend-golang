@@ -30,6 +30,20 @@ func CreateUserProfil(id uint, req *payload.Profile) error {
 	if err := database.UpdateUserStatus(id, "validated"); err != nil {
 		return err
 	}
+	user, err := database.GetUser(id)
+	if err != nil {
+		return err
+	}
+	user.Balance += 10000
+	if err := database.UpdateUser(&user); err != nil {
+		return err
+	}
+	if err := database.SaveNotification(models.Notification{
+		UserID: id,
+		Text:   "Selamat! Anda mendapatkan bonus saldo sebesar Rp10.000 karena telah mendaftarkan akun di aplikasi mobile AltaTech",
+	}); err != nil {
+		return err
+	}
 	return nil
 }
 
