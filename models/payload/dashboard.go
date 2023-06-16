@@ -5,10 +5,10 @@ import (
 )
 
 type DashboardResponse struct {
-	Users        []UsersResponse        `json:"users"`
-	Orders       []OrdersResponse       `json:"orders"`
-	Products     []ProductsResponse     `json:"products"`
-	OrderDetails []OrderDetailsResponse `json:"order_details"`
+	Users    []UsersResponse    `json:"users"`
+	Orders   []OrdersResponse   `json:"orders"`
+	Products []ProductsResponse `json:"products"`
+	Graphic  []Graphic          `json:"graphic"`
 }
 
 type UsersResponse struct {
@@ -41,5 +41,5 @@ type OrderDetailsResponse struct {
 
 type Graphic struct {
 	Name string `json:"name"`
-	Sum  int    `json:"sum"`
+	Qty  int    `json:"qty"`
 }

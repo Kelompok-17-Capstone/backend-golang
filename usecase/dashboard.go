@@ -5,34 +5,34 @@ import (
 	"backend-golang/repository/database"
 )
 
-func GetDashboard() ([]*payload.UsersResponse, []*payload.OrdersResponse, []*payload.ProductsResponse, []*payload.OrderDetailsResponse, error) {
+func GetDashboard() (resp []payload.DashboardResponse, err error) {
 	users, err := database.DashboardUsers()
 	if err != nil {
-		return nil, nil, nil, nil, err
+		return nil, err
 	}
 
 	orders, err := database.DashboardOrders()
 	if err != nil {
-		return nil, nil, nil, nil, err
+		return nil, err
 	}
 
 	products, err := database.DashboardProducts()
 	if err != nil {
-		return nil, nil, nil, nil, err
+		return nil, err
 	}
 
 	orderDetails, err := database.DashboardOrderDetails()
 	if err != nil {
-		return nil, nil, nil, nil, err
+		return nil, err
 	}
 
-	var usersResponse []*payload.UsersResponse
+	var usersResponse []payload.UsersResponse
 	for _, user := range users {
 		var address string
 		if len(user.Profile.Address) > 0 {
 			address = user.Profile.Address[0].Address + ", " + user.Profile.Address[0].City + ", " + user.Profile.Address[0].Province
 		}
-		usersResponse = append(usersResponse, &payload.UsersResponse{
+		usersResponse = append(usersResponse, payload.UsersResponse{
 			Name:        user.Profile.Name,
 			PhoneNumber: user.Profile.PhoneNumber,
 			Address:     address,
@@ -40,7 +40,7 @@ func GetDashboard() ([]*payload.UsersResponse, []*payload.OrdersResponse, []*pay
 		})
 	}
 
-	var ordersResponse []*payload.OrdersResponse
+	var ordersResponse []payload.OrdersResponse
 	for _, order := range orders {
 		var productName string
 		var quantity int
@@ -52,7 +52,7 @@ func GetDashboard() ([]*payload.UsersResponse, []*payload.OrdersResponse, []*pay
 			}
 			quantity += orderDetail.Quantity
 		}
-		ordersResponse = append(ordersResponse, &payload.OrdersResponse{
+		ordersResponse = append(ordersResponse, payload.OrdersResponse{
 			UserName:    order.User.Profile.Name,
 			Address:     order.Address,
 			ProductName: productName,
@@ -61,9 +61,9 @@ func GetDashboard() ([]*payload.UsersResponse, []*payload.OrdersResponse, []*pay
 		})
 	}
 
-	var productsResponse []*payload.ProductsResponse
+	var productsResponse []payload.ProductsResponse
 	for _, product := range products {
-		productsResponse = append(productsResponse, &payload.ProductsResponse{
+		productsResponse = append(productsResponse, payload.ProductsResponse{
 			Name:        product.Name,
 			Description: product.Description,
 			Stock:       product.Stock,
@@ -72,13 +72,12 @@ func GetDashboard() ([]*payload.UsersResponse, []*payload.OrdersResponse, []*pay
 		})
 	}
 
-	var orderDetailsResponse []*payload.OrderDetailsResponse
-	for _, orderDetail := range orderDetails {
-		orderDetailsResponse = append(orderDetailsResponse, &payload.OrderDetailsResponse{
-			ProductName: orderDetail.Product.Name,
-			Quantity:    orderDetail.Quantity,
-		})
-	}
+	resp = append(resp, payload.DashboardResponse{
+		Users:    usersResponse,
+		Orders:   ordersResponse,
+		Products: productsResponse,
+		Graphic:  orderDetails,
+	})
 
-	return usersResponse, ordersResponse, productsResponse, orderDetailsResponse, nil
+	return resp, nil
 }

@@ -8,7 +8,7 @@ import (
 )
 
 func GetDashboardController(c echo.Context) error {
-	users, orders, products, orderDetails, err := usecase.GetDashboard()
+	resp, err := usecase.GetDashboard()
 	if err != nil {
 		return c.JSON(http.StatusInternalServerError, map[string]interface{}{
 			"message": "Something went wrong",
@@ -16,9 +16,7 @@ func GetDashboardController(c echo.Context) error {
 	}
 
 	return c.JSON(http.StatusOK, map[string]interface{}{
-		"users":         users,
-		"orders":        orders,
-		"products":      products,
-		"order_details": orderDetails,
+		"message": "success get dashboard",
+		"data":    resp,
 	})
 }
