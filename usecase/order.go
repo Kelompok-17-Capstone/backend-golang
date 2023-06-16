@@ -26,6 +26,9 @@ func CreateOrder(userId uint, req *payload.CreateOrder) error {
 		product, _ := database.GetProductById(value.ProductID)
 		baseTotalPrice += float64(value.Quantity * int(product.Price))
 	}
+
+	grandTotalPrice = baseTotalPrice
+
 	if user.Role == "member" {
 		discount = percent.Percent(30, int(baseTotalPrice))
 		grandTotalPrice = baseTotalPrice - discount
@@ -127,6 +130,7 @@ func GetOrders(req *payload.OrdersParam) (resp []payload.GetOrders, err error) {
 
 		}
 		resp = append(resp, payload.GetOrders{
+			ID:            value.ID,
 			Name:          value.User.Profile.Name,
 			Address:       value.Address,
 			Status:        value.Status,

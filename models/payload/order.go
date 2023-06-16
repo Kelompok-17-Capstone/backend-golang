@@ -18,6 +18,7 @@ type Product struct {
 }
 
 type GetOrders struct {
+	ID            uuid.UUID      `json:"id" form:"id"`
 	Name          string         `json:"name" form:"name"`
 	Address       string         `json:"address" form:"address"`
 	Products      []string       `json:"product" form:"product"`
