@@ -14,7 +14,7 @@ func GetOrderMobile(userID uint, status string) ([]payload.GetOrderMobileData, e
 	if err != nil {
 		return nil, err
 	}
-	orderDetails, err := database.GetOrderMobile(&req)
+	orderDetails, err := database.GetOrderMobile(userID, &req)
 	if err != nil {
 		return nil, err
 	}

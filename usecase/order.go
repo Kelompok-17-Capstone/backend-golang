@@ -22,6 +22,10 @@ func CreateOrder(userId uint, req *payload.CreateOrder) error {
 		return err
 	}
 
+	if req.Products == nil {
+		return echo.NewHTTPError(http.StatusBadRequest, "Can't order products, the products is nil")
+	}
+
 	for _, value := range req.Products {
 		product, _ := database.GetProductById(value.ProductID)
 		baseTotalPrice += float64(value.Quantity * int(product.Price))
@@ -35,8 +39,20 @@ func CreateOrder(userId uint, req *payload.CreateOrder) error {
 	}
 
 	if req.Coin {
-		grandTotalPrice = grandTotalPrice - float64(user.Coin)
-		coin = user.Coin
+		if user.Coin > int(grandTotalPrice) {
+			coin = int(grandTotalPrice)
+		} else {
+			coin = user.Coin
+		}
+		if err := database.CreateCoin(&models.Coin{
+			UserID: userId,
+			Total:  coin,
+			Status: "decrease",
+		}); err != nil {
+			return err
+		}
+		grandTotalPrice = grandTotalPrice - float64(coin)
+
 	}
 
 	// validasi saldo dengan total price
@@ -50,14 +66,6 @@ func CreateOrder(userId uint, req *payload.CreateOrder) error {
 	if err := database.CreateTopup(&models.Balance{
 		UserID: userId,
 		Total:  int(grandTotalPrice),
-		Status: "decrease",
-	}); err != nil {
-		return err
-	}
-
-	if err := database.CreateCoin(&models.Coin{
-		UserID: userId,
-		Total:  coin,
 		Status: "decrease",
 	}); err != nil {
 		return err
