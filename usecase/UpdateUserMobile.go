@@ -67,12 +67,41 @@ func UpdateAddress(id uint, addresId uint, req *payload.UpdateAddress) error {
 	if err != nil {
 		return err
 	}
-	if req.Status == "primer" {
-		if err := database.UpdateAddressStatus(profile.ID, addresId, "skunder"); err != nil {
+	if req.Status {
+		if err := database.UpdateAddressStatus(profile.ID, addresId, false); err != nil {
 			return err
+		}
+	} else {
+		add, err := database.GetAddressById(addresId)
+		if err != nil {
+			return err
+		}
+		if add.Status {
+			return echo.NewHTTPError(http.StatusBadRequest, "Default address cant be undefault")
 		}
 	}
 	if err := database.UpdateAddress(profile.ID, addresId, req); err != nil {
+		return err
+	}
+	return nil
+}
+
+func DeleteAddress(id uint, userId uint) error {
+	profile, err := database.GetProfile(userId)
+	if err != nil {
+		return err
+	}
+	address, err := database.GetAddressById(id)
+	if err != nil {
+		return err
+	}
+	if profile.ID != address.ProfileID {
+		return echo.NewHTTPError(http.StatusBadRequest, "invalid user to delete the address")
+	}
+	if address.Status {
+		return echo.NewHTTPError(http.StatusBadRequest, "default address cant be deleted")
+	}
+	if err := database.DeleteAddress(id); err != nil {
 		return err
 	}
 	return nil

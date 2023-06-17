@@ -67,7 +67,7 @@ func CreateAddress(id uint, req *payload.CreateAddress) error {
 		Address:   req.Address,
 		City:      req.City,
 		Province:  req.Province,
-		Status:    "skunder",
+		Status:    false,
 	}
 	if err := database.CreateAddress(&address); err != nil {
 		return err

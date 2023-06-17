@@ -3,6 +3,7 @@ package usecase
 import (
 	"backend-golang/models"
 	"backend-golang/repository/database"
+	"strconv"
 )
 
 func CreateTopup(userID uint, total int) error {
@@ -21,6 +22,7 @@ func CreateTopup(userID uint, total int) error {
 	}
 
 	user.Balance += total
+	balance := strconv.Itoa(total)
 
 	if user.Role == "member" {
 		coinTotal := int(float32(total) * 0.01)
@@ -33,6 +35,22 @@ func CreateTopup(userID uint, total int) error {
 			return err
 		}
 		user.Coin += coinTotal
+
+		coins := strconv.Itoa(coinTotal)
+
+		if err := database.SaveNotification(models.Notification{
+			UserID: userID,
+			Text:   "Selamat anda mendapatkan bonus koin sebesar " + coins + ", karena anda telah melakukan top up saldo sebesar " + balance,
+		}); err != nil {
+			return err
+		}
+	} else {
+		if err := database.SaveNotification(models.Notification{
+			UserID: userID,
+			Text:   "Selamat anda telah berhasil melakukan top up sebesar " + balance,
+		}); err != nil {
+			return err
+		}
 	}
 
 	if err := database.UpdateUser(&user); err != nil {

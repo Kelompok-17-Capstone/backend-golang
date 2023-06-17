@@ -20,3 +20,15 @@ func Home(c echo.Context) error {
 		"data":    home,
 	})
 }
+
+func Guest(c echo.Context) error {
+	home, err := usecase.Guest()
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, echo.NewHTTPError(http.StatusBadRequest, err.Error()))
+	}
+
+	return c.JSON(http.StatusCreated, map[string]interface{}{
+		"message": "Success get home",
+		"data":    home,
+	})
+}

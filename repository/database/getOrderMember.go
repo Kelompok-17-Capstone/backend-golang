@@ -6,7 +6,7 @@ import (
 	"backend-golang/models/payload"
 )
 
-func GetOrderMobile(req *payload.GetOrderMobileParam) ([]models.Order, error) {
+func GetOrderMobile(id uint, req *payload.GetOrderMobileParam) ([]models.Order, error) {
 	var orders []models.Order
 	db := config.DB
 	if req.Status != "" {
@@ -15,7 +15,7 @@ func GetOrderMobile(req *payload.GetOrderMobileParam) ([]models.Order, error) {
 		}
 	}
 
-	if err := db.Preload("OrderDetails.Product").Find(&orders).Error; err != nil {
+	if err := db.Preload("OrderDetails.Product").Where("user_id = ?", id).Find(&orders).Error; err != nil {
 		return orders, err
 	}
 

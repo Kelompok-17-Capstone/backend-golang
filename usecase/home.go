@@ -30,3 +30,25 @@ func Home(userId uint) (resp payload.GetHome, err error) {
 	}
 	return
 }
+
+func Guest() (resp payload.GetHome, err error) {
+	product, err := database.GetLimitsProductsOrderByCreatedAt(6, "desc")
+
+	if err != nil {
+		return
+	}
+	var getProduct []payload.ProductsHome
+
+	for _, value := range product {
+		getProduct = append(getProduct, payload.ProductsHome{
+			Name:  value.Name,
+			Image: value.Image,
+		})
+	}
+
+	resp = payload.GetHome{
+		Saldo:    0,
+		Products: getProduct,
+	}
+	return
+}

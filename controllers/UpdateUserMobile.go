@@ -39,12 +39,14 @@ func UpdatePasswordController(c echo.Context) error {
 		return err
 	}
 
-	user, err := usecase.UpdatePassword(userID, &req)
+	_, err := usecase.UpdatePassword(userID, &req)
 	if err != nil {
-		return echo.NewHTTPError(http.StatusInternalServerError, err.Error())
+		return echo.NewHTTPError(http.StatusBadRequest, err.Error())
 	}
 
-	return c.JSON(http.StatusOK, user)
+	return c.JSON(http.StatusOK, map[string]interface{}{
+		"message": "success update password",
+	})
 }
 
 // update name user
@@ -58,7 +60,7 @@ func UpdateNameController(c echo.Context) error {
 
 	err := usecase.UpdateName(userID, &req)
 	if err != nil {
-		return echo.NewHTTPError(http.StatusInternalServerError, err.Error())
+		return echo.NewHTTPError(http.StatusBadRequest, err.Error())
 	}
 
 	return c.JSON(http.StatusOK, map[string]interface{}{
@@ -82,7 +84,7 @@ func UpdatePhoneNumberController(c echo.Context) error {
 
 	err := usecase.UpdatePhoneNumber(userID, &req)
 	if err != nil {
-		return echo.NewHTTPError(http.StatusInternalServerError, err.Error())
+		return echo.NewHTTPError(http.StatusBadRequest, err.Error())
 	}
 
 	return c.JSON(http.StatusOK, map[string]interface{}{
@@ -100,9 +102,20 @@ func UpdateAddressController(c echo.Context) error {
 	}
 	err := usecase.UpdateAddress(userID, uint(addresId), &req)
 	if err != nil {
-		return echo.NewHTTPError(http.StatusInternalServerError, err.Error())
+		return echo.NewHTTPError(http.StatusBadRequest, err.Error())
 	}
 	return c.JSON(http.StatusOK, map[string]interface{}{
 		"message": "Address updated successfully",
+	})
+}
+
+func DeleteAddressController(c echo.Context) error {
+	userId := middlewares.GetUserLoginId(c)
+	addresId, _ := strconv.Atoi(c.Param("id"))
+	if err := usecase.DeleteAddress(uint(addresId), userId); err != nil {
+		return echo.NewHTTPError(http.StatusBadRequest, err.Error())
+	}
+	return c.JSON(http.StatusOK, map[string]interface{}{
+		"message": "Address delete successfully",
 	})
 }

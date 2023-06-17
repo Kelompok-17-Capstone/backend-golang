@@ -16,15 +16,21 @@ func New() *echo.Echo {
 	m.LoggerMiddleware(e)
 
 	e.Pre(middleware.RemoveTrailingSlash())
+	e.Use(middleware.CORS())
 
-	e.GET("/home", controllers.Home, jwt.JWT([]byte(constants.SECRET_KEY)))
+	e.GET("/guest", controllers.Guest)
 	e.POST("/register", controllers.RegisterController)
 	e.POST("/login", controllers.LoginController)
-	e.POST("/orders", controllers.CreateOrderController, jwt.JWT([]byte(constants.SECRET_KEY)))
 	e.GET("/products", controllers.GetProductsMobileController)
 	e.GET("/products/:id", controllers.GetProductMobileByIdController)
-
-	p := e.Group("profile", jwt.JWT([]byte(constants.SECRET_KEY)))
+	user := e.Group("", jwt.JWT([]byte(constants.SECRET_KEY)), m.IsUser)
+	user.GET("/home", controllers.Home)
+	n := user.Group("notifications")
+	n.GET("", controllers.GetNotifications)
+	n.GET("/:id", controllers.GetNotificationById)
+	n.PUT("/status/:id", controllers.UpdateNotificationStatus)
+	n.DELETE("/:id", controllers.DeleteNotification)
+	p := user.Group("profile", jwt.JWT([]byte(constants.SECRET_KEY)))
 	p.GET("", controllers.ViewMemberInformationController)
 	p.POST("", controllers.CreateUserProfileController)
 	p.POST("/address", controllers.CreateAddressController)
@@ -33,55 +39,50 @@ func New() *echo.Echo {
 	p.PUT("/name", controllers.UpdateNameController)
 	p.PUT("/phone-number", controllers.UpdatePhoneNumberController)
 	p.PUT("/address/:id", controllers.UpdateAddressController)
+	p.DELETE("/address/:id", controllers.DeleteAddressController)
 	p.PUT("", controllers.RegisterAsMemberController)
 	p.PUT("/photo", controllers.UpdateUserPhotoController)
+	//topup
+	tp := user.Group("topup")
+	tp.POST("", controllers.CreateTopupController)
+	coin := user.Group("coin")
+	coin.GET("", controllers.GetCoinController)
+	balance := user.Group("balance")
+	balance.GET("", controllers.GetBalanceController)
+	//get order mobile
+	orderMobile := user.Group("orders")
+	orderMobile.GET("", controllers.GetOrderMobileController)
+	orderMobile.POST("", controllers.CreateOrderController)
+	//cart
+	cart := user.Group("/cart")
+	cart.POST("", controllers.AddToCartController)
+	cart.GET("", controllers.GetCartController)
+	cart.DELETE("/:id", controllers.DeleteDetailCartItemController)
+	cart.PUT("/:id", controllers.UpdateDetailCartItemController)
+	favoriteProducts := user.Group("favorite")
+	favoriteProducts.GET("", controllers.GetFavoriteProductController)
+	favoriteProducts.POST("", controllers.AddFavoriteProductController)
+	favoriteProducts.DELETE("/:id", controllers.DeleteFavoriteProductController)
 
-	products := e.Group("admin/products", jwt.JWT([]byte(constants.SECRET_KEY)))
+	admin := e.Group("admin", jwt.JWT([]byte(constants.SECRET_KEY)), m.IsAdmin)
+	dashboard := admin.Group("/dashboard")
+	dashboard.GET("", controllers.GetDashboardController)
+	products := admin.Group("/products")
 	products.GET("", controllers.GetProductsController)
 	products.POST("", controllers.CreateProductController)
 	products.GET("/:id", controllers.GetProductByIDController)
 	products.PUT("/:id", controllers.UpdateProductController)
 	products.DELETE("/:id", controllers.DeleteProductController)
-
-	users := e.Group("admin/users", jwt.JWT([]byte(constants.SECRET_KEY)))
+	users := admin.Group("/users")
 	users.GET("", controllers.GetUsersController)
 	users.GET("/:id", controllers.GetUserController)
 	users.PUT("/:id", controllers.UpdateUserController)
 	users.DELETE("/:id", controllers.DeleteUserController)
-
-	orders := e.Group("admin/orders", jwt.JWT([]byte(constants.SECRET_KEY)))
+	orders := admin.Group("/orders", jwt.JWT([]byte(constants.SECRET_KEY)), m.IsAdmin)
 	orders.GET("", controllers.GetOrdersController)
-
-	m := e.Group("member", jwt.JWT([]byte(constants.SECRET_KEY)))
-	m.POST("", controllers.RegisterAsMemberController)
-	m.GET("", controllers.ViewMemberInformationController)
-
-	//cart
-	cart := e.Group("/cart", jwt.JWT([]byte(constants.SECRET_KEY)))
-	cart.POST("", controllers.AddToCartController)
-	cart.GET("", controllers.GetCartController)
-	cart.DELETE("/:id", controllers.DeleteDetailCartItemController)
-	cart.PUT("/:id", controllers.UpdateDetailCartItemController)
-
-	favoriteProducts := e.Group("favorite", jwt.JWT([]byte(constants.SECRET_KEY)))
-	favoriteProducts.GET("", controllers.GetFavoriteProductController)
-	favoriteProducts.POST("", controllers.AddFavoriteProductController)
-	favoriteProducts.DELETE("/:id", controllers.DeleteFavoriteProductController)
-
-	//topup
-	tp := e.Group("topup", jwt.JWT([]byte(constants.SECRET_KEY)))
-	tp.POST("", controllers.CreateTopupController)
-	// tp.GET("", controllers.)
-
-	coin := e.Group("coin", jwt.JWT([]byte(constants.SECRET_KEY)))
-	coin.GET("", controllers.GetCoinController)
-
-	balance := e.Group("balance", jwt.JWT([]byte(constants.SECRET_KEY)))
-	balance.GET("", controllers.GetBalanceController)
-
-	//get order mobile
-	orderMobile := e.Group("order", jwt.JWT([]byte(constants.SECRET_KEY)))
-	orderMobile.GET("", controllers.GetOrderMobileController)
+	orders.GET("/:id", controllers.GetOrderController)
+	orders.PUT("/:id", controllers.UpdateOrderController)
+	orders.DELETE("/:id", controllers.DeleteOrderController)
 
 	return e
 }

@@ -9,7 +9,7 @@ import (
 
 func DeleteProduct(id uuid.UUID) error {
 	product := models.Product{}
-	if err := config.DB.Model(&product).Where("id = ?", id).Delete(product).Error; err != nil {
+	if err := config.DB.Model(&product).Where("id = ?", id).Delete(&product).Error; err != nil {
 		return err
 	}
 	return nil
