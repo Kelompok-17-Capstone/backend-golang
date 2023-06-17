@@ -8,7 +8,7 @@ import (
 
 func DashboardUsers() ([]*models.User, error) {
 	var user []*models.User
-	if err := config.DB.Preload("Profile.Address").Not("role = ? ", "admin").Order("created_at desc").Find(&user).Limit(4).Error; err != nil {
+	if err := config.DB.Preload("Profile.Address").Not("role = ? ", "admin").Order("created_at desc").Limit(4).Find(&user).Error; err != nil {
 		return user, err
 	}
 	return user, nil
@@ -16,7 +16,7 @@ func DashboardUsers() ([]*models.User, error) {
 
 func DashboardOrders() ([]*models.Order, error) {
 	var order []*models.Order
-	if err := config.DB.Preload("User.Profile.Address").Preload("OrderDetails.Product").Order("created_at desc").Find(&order).Limit(4).Error; err != nil {
+	if err := config.DB.Preload("User.Profile.Address").Preload("OrderDetails.Product").Order("created_at desc").Limit(4).Find(&order).Error; err != nil {
 		return order, err
 	}
 	return order, nil
@@ -24,7 +24,7 @@ func DashboardOrders() ([]*models.Order, error) {
 
 func DashboardProducts() ([]*models.Product, error) {
 	var product []*models.Product
-	if err := config.DB.Order("created_at desc").Find(&product).Limit(4).Error; err != nil {
+	if err := config.DB.Order("created_at desc").Limit(4).Find(&product).Error; err != nil {
 		return product, err
 	}
 	return product, nil

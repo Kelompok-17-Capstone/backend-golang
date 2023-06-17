@@ -26,6 +26,13 @@ func GetNotificationById(id uint) (resp models.Notification, err error) {
 	return
 }
 
+func GetNotifications(id uint) (resp []models.Notification, err error) {
+	if err = config.DB.Order("created_at desc").Where("user_id = ?", id).Find(&resp).Error; err != nil {
+		return
+	}
+	return
+}
+
 func DeleteNotificationById(id uint) error {
 	if err := config.DB.Unscoped().Delete(&models.Notification{}, id).Error; err != nil {
 		return err

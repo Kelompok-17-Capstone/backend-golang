@@ -37,7 +37,7 @@ func IsUser(next echo.HandlerFunc) echo.HandlerFunc {
 		user := c.Get("user").(*jwt.Token)
 		claims := user.Claims.(jwt.MapClaims)
 		isUser := claims["role"].(string)
-		if isUser != "user" {
+		if isUser == "admin" {
 			return echo.ErrUnauthorized
 		}
 		return next(c)

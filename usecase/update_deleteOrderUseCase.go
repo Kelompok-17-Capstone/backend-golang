@@ -1,6 +1,7 @@
 package usecase
 
 import (
+	"backend-golang/models"
 	"backend-golang/models/payload"
 	"backend-golang/repository/database"
 	"time"
@@ -11,6 +12,9 @@ import (
 
 // delete order by id
 func DeleteOrder(id uuid.UUID) error {
+	if _, err := database.GetOrderByID(id); err != nil {
+		return err
+	}
 	if err := database.DeleteOrder(id); err != nil {
 		return err
 	}
@@ -26,9 +30,21 @@ func UpdateOrderStatusAndArrived(id uuid.UUID, req *payload.UpdateOrder) error {
 	if err != nil {
 		return err
 	}
-
+	order, err := database.GetOrderByID(id)
+	if err != nil {
+		return err
+	}
 	if err := database.UpdateOrderStatusAndArrived(id, req.Status, arrivedAt); err != nil {
 		return err
+	}
+
+	if req.Status != "" {
+		if err := database.SaveNotification(models.Notification{
+			UserID: order.UserID,
+			Text:   "Pesanan anda dengan id pesanan " + id.String() + " telah " + req.Status,
+		}); err != nil {
+			return err
+		}
 	}
 	return nil
 }

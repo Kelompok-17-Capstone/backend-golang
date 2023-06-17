@@ -6,11 +6,11 @@ import (
 )
 
 func GetNotifications(id uint) (resp []payload.GetNotification, err error) {
-	user, err := database.GetUser(id)
+	notifications, err := database.GetNotifications(id)
 	if err != nil {
 		return
 	}
-	for _, value := range user.Notifications {
+	for _, value := range notifications {
 		resp = append(resp, payload.GetNotification{
 			ID:        value.ID,
 			CreatedAt: value.CreatedAt,
@@ -53,6 +53,9 @@ func UpdateNotificationStatus(id uint) error {
 }
 
 func DeleteNotification(id uint) error {
+	if _, err := database.GetNotificationById(id); err != nil {
+		return err
+	}
 	if err := database.DeleteNotificationById(id); err != nil {
 		return err
 	}
