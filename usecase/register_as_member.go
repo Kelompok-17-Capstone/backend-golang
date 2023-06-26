@@ -32,7 +32,9 @@ func RegisterAsMember(id uint) error {
 	}
 
 	memberCode := database.GenerateMemberCode(user.ID)
-	err = database.StoreMemberCode(user.ID, memberCode)
+	user.MemberCode = memberCode
+
+	err = database.UpdateUser(&user)
 	if err != nil {
 		return err
 	}
