@@ -40,6 +40,7 @@ type GetMemberMobile struct {
 	Address     []Address `json:"address" form:"address"`
 	Image       string    `json:"image" form:"image"`
 	MemberCode  string    `json:"member_code" form:"member_code"`
+	Barcode     string    `json:"barcode" form:"barcode"`
 	Balance     int       `json:"balance" form:"balance"`
 	Coin        int       `json:"coin" form:"coin"`
 }

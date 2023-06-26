@@ -21,10 +21,6 @@ func ViewMemberInformation(id uint) (payload.GetMemberMobile, error) {
 		username = user.Profile.Name
 	}
 
-	memberCode, err := database.GetMemberCode(user.ID)
-	if err != nil {
-		return payload.GetMemberMobile{}, err
-	}
 	var address []payload.Address
 	for _, value := range user.Profile.Address {
 		address = append(address, payload.Address{
@@ -41,9 +37,10 @@ func ViewMemberInformation(id uint) (payload.GetMemberMobile, error) {
 		PhoneNumber: user.Profile.PhoneNumber,
 		Address:     address,
 		Image:       user.Profile.Photo,
-		MemberCode:  memberCode,
+		MemberCode:  user.MemberCode,
 		Balance:     user.Balance,
 		Coin:        user.Coin,
+		Barcode:     user.Barcode,
 	}
 	return resp, nil
 }
