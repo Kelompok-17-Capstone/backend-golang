@@ -13,7 +13,7 @@ func RegisterAsMemberController(c echo.Context) error {
 
 	err := usecase.RegisterAsMember(userID)
 	if err != nil {
-		return echo.NewHTTPError(http.StatusInternalServerError, "Failed to register as a member")
+		return echo.NewHTTPError(http.StatusInternalServerError, err.Error())
 	}
 
 	return c.JSON(http.StatusOK, echo.Map{

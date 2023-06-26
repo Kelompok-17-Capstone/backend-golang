@@ -22,6 +22,12 @@ func CreateOrder(userId uint, req *payload.CreateOrder) error {
 		return err
 	}
 
+	for _, val := range req.Products {
+		if val.Quantity <= 0 {
+			return echo.NewHTTPError(http.StatusBadRequest, "Quantity must be greater than 0")
+		}
+	}
+
 	if req.Products == nil {
 		return echo.NewHTTPError(http.StatusBadRequest, "Can't order products, the products is nil")
 	}

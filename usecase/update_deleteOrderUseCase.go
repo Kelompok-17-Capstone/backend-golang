@@ -69,6 +69,7 @@ func GetOrderByID(id uuid.UUID) (*payload.GetOrders, error) {
 	}
 
 	respon := &payload.GetOrders{
+		ID:            order.ID,
 		Name:          order.User.Profile.Name,
 		Address:       order.Address,
 		TotalQuantity: qty,

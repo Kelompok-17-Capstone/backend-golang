@@ -16,7 +16,7 @@ func GetOrderMobileController(c echo.Context) error {
 	}
 	resp, err := usecase.GetOrderMobile(userID, req.Status)
 	if err != nil {
-		return c.JSON(http.StatusInternalServerError, echo.NewHTTPError(http.StatusBadRequest, "Failed to get orders"))
+		return c.JSON(http.StatusInternalServerError, echo.NewHTTPError(http.StatusBadRequest, err.Error()))
 	}
 	response := map[string]interface{}{
 		"message": "Orders retrieved successfully",
